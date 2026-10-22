@@ -1,0 +1,56 @@
+# Initialize OpenBao And Store A First Secret
+# Astrona graded lab. Schema: internal/config.LabConfig.
+
+metadata:
+  name: "ats-112-lab-030-01"
+  docs:
+    guide: "solution.md"
+    solution: "solution.md"
+    question: "question.md"
+    examQuestion: "question.md"
+    prerequisites: "prerequisites.md"
+
+bootstrap:
+  init:
+    - name: "install-openbao"
+      description: "Installs Helm 3.22.1, the bao CLI 2.7.1, the tester pod and OpenBao v2.7.1 (chart 0.30.4)"
+      type: "file"
+      source: "bootstrap/01-install-openbao.sh"
+    - name: "ats-112-lab-030-01-setup"
+      description: "Leaves OpenBao installed but not initialized, which is the starting point of the task"
+      type: "file"
+      source: "bootstrap/02-seed-state.sh"
+  manifests:
+    - name: "lab-start"
+      description: "The tester pod (namespace clients)."
+      type: "file"
+      source: "manifests/lab-start.yaml"
+
+testing:
+  init:
+    - name: "wait-for-openbao"
+      description: "Waits until OpenBao answers in its pod"
+      type: "file"
+      source: "testing/wait-for-openbao.sh"
+    - name: "reference-solution"
+      description: "The work a correct learner does; used by `astrona test`"
+      type: "file"
+      source: "solution/apply.sh"
+
+validation:
+  scripts:
+    - name: "validate-init-shape"
+      description: "Confirms OpenBao is initialized with 5 key shares and a threshold of 3 and is unsealed"
+      type: "file"
+      source: "validation/validate-init-shape.sh"
+    - name: "validate-kv-mount"
+      description: "Confirms a KV version 2 secrets engine is enabled at secret/"
+      type: "file"
+      source: "validation/validate-kv-mount.sh"
+    - name: "validate-secret"
+      description: "Confirms secret/app/config holds username=app and api_url=http://inventory.internal:8080"
+      type: "file"
+      source: "validation/validate-secret.sh"
+
+teardown:
+  keepCluster: false

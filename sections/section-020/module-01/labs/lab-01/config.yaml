@@ -1,0 +1,60 @@
+# Repair A Server Configuration
+# Astrona graded lab. Schema: internal/config.LabConfig.
+
+metadata:
+  name: "ats-112-lab-020-01"
+  docs:
+    guide: "solution.md"
+    solution: "solution.md"
+    question: "question.md"
+    examQuestion: "question.md"
+    prerequisites: "prerequisites.md"
+
+bootstrap:
+  init:
+    - name: "install-openbao"
+      description: "Installs Helm 3.22.1, the bao CLI 2.7.1, the tester pod and OpenBao v2.7.1 (chart 0.30.4)"
+      type: "file"
+      source: "bootstrap/01-install-openbao.sh"
+    - name: "ats-112-lab-020-01-setup"
+      description: "Writes a secret and a baseline, then upgrades the Helm release with a configuration that points at the wrong storage path and port"
+      type: "file"
+      source: "bootstrap/02-seed-state.sh"
+  manifests:
+    - name: "lab-start"
+      description: "The tester pod (namespace clients)."
+      type: "file"
+      source: "manifests/lab-start.yaml"
+
+testing:
+  init:
+    - name: "wait-for-openbao"
+      description: "Waits until OpenBao answers in its pod"
+      type: "file"
+      source: "testing/wait-for-openbao.sh"
+    - name: "reference-solution"
+      description: "The work a correct learner does; used by `astrona test`"
+      type: "file"
+      source: "solution/apply.sh"
+
+validation:
+  scripts:
+    - name: "validate-config-values"
+      description: "Confirms the Helm values listen on [::]:8200 and keep Raft data in /openbao/data"
+      type: "file"
+      source: "validation/validate-config-values.sh"
+    - name: "validate-config-valid"
+      description: "Confirms bao operator validate-config accepts the configuration the pod runs with"
+      type: "file"
+      source: "validation/validate-config-valid.sh"
+    - name: "validate-unsealed-ready"
+      description: "Confirms the pod is Ready and OpenBao is unsealed"
+      type: "file"
+      source: "validation/validate-unsealed-ready.sh"
+    - name: "validate-same-data"
+      description: "Confirms the cluster is the original one and the secret written before the change is still there"
+      type: "file"
+      source: "validation/validate-same-data.sh"
+
+teardown:
+  keepCluster: false

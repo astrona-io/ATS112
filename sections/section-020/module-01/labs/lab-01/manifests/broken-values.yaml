@@ -1,0 +1,32 @@
+# The configuration a colleague applied before the task starts. It is wrong
+# on purpose: the listener port and the Raft data path changed. Applied by
+# bootstrap/02-seed-state.sh; never "fix" it here.
+fullnameOverride: openbao
+injector:
+  enabled: false
+server:
+  image:
+    tag: "2.7.1"
+  standalone:
+    enabled: true
+    config: |
+      ui = true
+
+      listener "tcp" {
+        tls_disable     = 1
+        address         = "[::]:8300"
+        cluster_address = "[::]:8201"
+      }
+
+      storage "raft" {
+        path    = "/openbao/raft"
+        node_id = "openbao-0"
+      }
+
+      api_addr     = "http://openbao.localtest.me:8200"
+      cluster_addr = "http://openbao-0.openbao-internal:8201"
+  dataStorage:
+    enabled: true
+    size: 1Gi
+ui:
+  enabled: true

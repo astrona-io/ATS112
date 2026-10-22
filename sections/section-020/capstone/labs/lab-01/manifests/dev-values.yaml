@@ -1,0 +1,16 @@
+# Development mode: OpenBao runs in memory, starts unsealed and has a known
+# root token. This is the starting point of the task, never a production
+# setup. Applied by bootstrap/02-seed-state.sh.
+fullnameOverride: openbao
+injector:
+  enabled: false
+server:
+  image:
+    tag: "2.7.1"
+  dev:
+    enabled: true
+  dataStorage:
+    enabled: true
+    size: 1Gi
+ui:
+  enabled: true

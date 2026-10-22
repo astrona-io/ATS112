@@ -1,0 +1,285 @@
+# Course manifest for ATS112 - Fundamentals, Architecture & CLI Operations (OpenBao).
+#
+# One entry per section under `modules:`. Each section lists, in order: its
+# README, then for each module the landing page (course.md), its parts
+# (course-0N-*.md), and right after the part a lab tests, the lab's
+# question.md reading and the `type: lab` entry. The module's summary page
+# comes last. The section capstone closes the section. Playgrounds are not
+# listed: the landing page's playground marker shows them. solution.md is
+# never listed.
+#
+# Every `path:` is relative to this file.
+
+training:
+  id: ATS112
+  title: "OpenBao: Fundamentals, Architecture & CLI Operations"
+  maturity: draft
+  description: >
+    Training material covering the Fundamentals, Architecture & CLI
+    Operations domain of the OpenBao training path: what OpenBao is and where
+    it comes from, the barrier, the root key and Shamir's secret sharing,
+    seal states and health checks, the server configuration file and how the
+    Helm chart runs it, development mode against a real server, and
+    initializing, unsealing, sealing and rotating keys with the bao
+    command-line tool. Each module pairs a layered reader with an ungraded
+    hands-on playground and a graded practice lab. Each section closes with
+    an integration capstone.
+    Written for OpenBao v2.7.1.
+
+  certification:
+    name: OpenBao
+    code: OPENBAO
+    provider: Astrona
+    domain: Fundamentals, Architecture & CLI Operations
+    weight: 10
+
+modules:
+
+  - id: module-intro
+    title: "Introduction"
+    description: >
+      Start here. What this course trains you to do, how it is laid out, how
+      to get your machine ready with the astrona command-line tool, how the
+      content is written and checked, who maintains it, and how to report a
+      mistake.
+
+    content:
+      - type: reading
+        title: Introduction
+        path: sections/intro/README.md
+      - type: reading
+        title: "Welcome To The Course"
+        path: sections/intro/course-01-welcome.md
+      - type: reading
+        title: "Get Your Machine Ready"
+        path: sections/intro/course-02-get-your-machine-ready.md
+      - type: reading
+        title: "How This Course Is Made"
+        path: sections/intro/course-03-how-this-course-is-made.md
+
+  - id: module-010
+    title: "What OpenBao Is And How It Protects Data"
+    description: >
+      What OpenBao is and where it comes from, how a request travels through
+      it, how the barrier, the keyring and the root key protect the stored
+      data, how Shamir's secret sharing splits the unseal key, and how to read
+      the seal state and the health of a server.
+
+    content:
+      - type: reading
+        title: Section Overview
+        path: sections/section-010/README.md
+
+      - type: reading
+        title: "Understand How OpenBao Protects Data"
+        path: sections/section-010/module-01/course.md
+      - type: reading
+        title: "What OpenBao Is And How A Request Travels"
+        path: sections/section-010/module-01/course-01-what-openbao-is.md
+      - type: reading
+        title: "The Barrier, The Root Key And Shamir's Secret Sharing"
+        path: sections/section-010/module-01/course-02-barrier-root-key-and-shamir.md
+      - type: reading
+        title: "Seal States And Health Checks"
+        path: sections/section-010/module-01/course-03-seal-states-and-health.md
+      - type: reading
+        title: Question
+        path: sections/section-010/module-01/labs/lab-01/question.md
+      - type: lab
+        title: "Unseal A Server With A Key Threshold Lab"
+        path: sections/section-010/module-01/labs/lab-01
+        difficulty: beginner
+        estimated_duration: 15m
+        topic: seal
+        task_kind: troubleshooting
+        tags: [shamir, unseal-keys, operator-unseal, seal-status, kv, bao-cli]
+        learning_goals:
+          - Unseal a sealed OpenBao server by entering three of its five key shares
+          - Read the seal status to follow the unseal progress and confirm the result
+          - Prove the server kept its data by reading a secret written before it was sealed
+        resources:
+          - name: "Seal and unseal"
+            url: https://openbao.org/docs/concepts/seal/
+          - name: "operator unseal command"
+            url: https://openbao.org/docs/commands/operator/unseal/
+          - name: "seal-status API"
+            url: https://openbao.org/docs/api/system/seal-status/
+      - type: reading
+        title: Summary
+        path: sections/section-010/module-01/course-04-summary.md
+
+      - type: reading
+        title: Question
+        path: sections/section-010/capstone/labs/lab-01/question.md
+      - type: lab
+        title: "Unseal A Server When One Key Share Is Wrong Capstone"
+        path: sections/section-010/capstone/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 30m
+        topic: security-model
+        task_kind: troubleshooting
+        tags: [shamir, unseal-keys, operator-unseal, operator-seal, seal-status, http-api]
+        learning_goals:
+          - Recognise from the unseal result that one key share is wrong
+          - Find the wrong share by testing combinations without initializing the server again
+          - Prove the server is healthy through the sys/health endpoint
+        resources:
+          - name: "Seal and unseal"
+            url: https://openbao.org/docs/concepts/seal/
+          - name: "health API"
+            url: https://openbao.org/docs/api/system/health/
+          - name: "operator seal command"
+            url: https://openbao.org/docs/commands/operator/seal/
+
+  - id: module-020
+    title: "Configuring The OpenBao Server"
+    description: >
+      The server configuration file: the listener, Integrated Storage, the
+      advertised addresses and the other top-level settings; how the Helm
+      chart turns its values into that file and restarts the server;
+      validating a configuration; and why development mode is never a real
+      server.
+
+    content:
+      - type: reading
+        title: Section Overview
+        path: sections/section-020/README.md
+
+      - type: reading
+        title: "Configure An OpenBao Server"
+        path: sections/section-020/module-01/course.md
+      - type: reading
+        title: "The Server Configuration File"
+        path: sections/section-020/module-01/course-01-server-configuration-file.md
+      - type: reading
+        title: "How The Helm Chart Runs The Server"
+        path: sections/section-020/module-01/course-02-how-the-helm-chart-runs-the-server.md
+      - type: reading
+        title: Question
+        path: sections/section-020/module-01/labs/lab-01/question.md
+      - type: lab
+        title: "Repair A Server Configuration Lab"
+        path: sections/section-020/module-01/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 20m
+        topic: configuration
+        task_kind: troubleshooting
+        tags: [server-config, listener, storage-raft, helm-chart, operator-unseal, bao-cli]
+        learning_goals:
+          - Find which configuration lines stop a server from serving its existing data
+          - Correct the configuration through the Helm release and restart the pod so it takes effect
+          - Prove the server runs on its original data with a valid configuration
+        resources:
+          - name: "Server configuration"
+            url: https://openbao.org/docs/configuration/
+          - name: "Integrated Storage (Raft) configuration"
+            url: https://openbao.org/docs/configuration/storage/raft/
+          - name: "operator validate-config command"
+            url: https://openbao.org/docs/commands/operator/validate-config/
+          - name: "Run OpenBao on Kubernetes with Helm"
+            url: https://openbao.org/docs/platform/k8s/helm/
+      - type: reading
+        title: "Development Mode Against A Real Server"
+        path: sections/section-020/module-01/course-03-development-mode.md
+      - type: reading
+        title: Summary
+        path: sections/section-020/module-01/course-04-summary.md
+
+      - type: reading
+        title: Question
+        path: sections/section-020/capstone/labs/lab-01/question.md
+      - type: lab
+        title: "Move A Development Server To A Real Configuration Capstone"
+        path: sections/section-020/capstone/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 35m
+        topic: storage
+        task_kind: migration
+        tags: [server-config, storage-raft, api-addr, listener, operator-init, helm-chart]
+        learning_goals:
+          - Replace a development server with a standalone server that stores data with Raft
+          - Write a configuration with the listener, storage, UI, log level and advertised address
+          - Initialize and unseal the new server and store a first secret in it
+        resources:
+          - name: "Server configuration"
+            url: https://openbao.org/docs/configuration/
+          - name: "Development server"
+            url: https://openbao.org/docs/concepts/dev-server/
+          - name: "Helm chart configuration"
+            url: https://openbao.org/docs/platform/k8s/helm/configuration/
+
+  - id: module-030
+    title: "Initializing, Unsealing And Sealing With bao"
+    description: >
+      Initializing a server and choosing the number of key shares and the
+      threshold, unsealing, signing in, storing a first secret, sealing
+      again, and rotating the unseal keys and the encryption key before
+      retiring the root token.
+
+    content:
+      - type: reading
+        title: Section Overview
+        path: sections/section-030/README.md
+
+      - type: reading
+        title: "Initialize, Unseal And Operate OpenBao"
+        path: sections/section-030/module-01/course.md
+      - type: reading
+        title: "Initializing A Server"
+        path: sections/section-030/module-01/course-01-initializing-a-server.md
+      - type: reading
+        title: "Unseal, Sign In, Store A Secret And Seal Again"
+        path: sections/section-030/module-01/course-02-unseal-sign-in-and-store.md
+      - type: reading
+        title: Question
+        path: sections/section-030/module-01/labs/lab-01/question.md
+      - type: lab
+        title: "Initialize OpenBao And Store A First Secret Lab"
+        path: sections/section-030/module-01/labs/lab-01
+        difficulty: beginner
+        estimated_duration: 20m
+        topic: cli
+        task_kind: build
+        tags: [operator-init, operator-unseal, root-token, kv, bao-cli, bao-addr]
+        learning_goals:
+          - Initialize a fresh server with five key shares and a threshold of three
+          - Unseal it, sign in and enable a KV version 2 secrets engine at secret/
+          - Store a first secret and read it back with the bao command-line tool
+        resources:
+          - name: "operator init command"
+            url: https://openbao.org/docs/commands/operator/init/
+          - name: "KV version 2 secrets engine"
+            url: https://openbao.org/docs/secrets/kv/kv-v2/
+          - name: "Operator quick start"
+            url: https://openbao.org/docs/get-started/operator-qs/
+      - type: reading
+        title: "Rotating Keys And Retiring The Root Token"
+        path: sections/section-030/module-01/course-03-rotating-keys-and-the-root-token.md
+      - type: reading
+        title: Summary
+        path: sections/section-030/module-01/course-04-summary.md
+
+      - type: reading
+        title: Question
+        path: sections/section-030/capstone/labs/lab-01/question.md
+      - type: lab
+        title: "Rotate Unseal Keys And Retire The Root Token Capstone"
+        path: sections/section-030/capstone/labs/lab-01
+        difficulty: advanced
+        estimated_duration: 35m
+        topic: seal
+        task_kind: migration
+        tags: [rekey, unseal-keys, root-key, root-token, operator-seal, bao-cli]
+        learning_goals:
+          - Replace a single unseal key with five key shares and a threshold of three
+          - Rotate the encryption key and give administrators a normal token with an admin policy
+          - Revoke the root token and prove the server still works without it
+        resources:
+          - name: "operator rotate-keys command"
+            url: https://openbao.org/docs/commands/operator/rotate-keys/
+          - name: "operator rotate command"
+            url: https://openbao.org/docs/commands/operator/rotate/
+          - name: "Tokens"
+            url: https://openbao.org/docs/concepts/tokens/
+          - name: "operator generate-root command"
+            url: https://openbao.org/docs/commands/operator/generate-root/

@@ -64,8 +64,8 @@ wait_started() {
   for _ in $(seq 1 120); do
     if [ "$(kubectl -n openbao get pod openbao-0 -o jsonpath='{.status.containerStatuses[0].started}' 2>/dev/null)" = "true" ]; then
       # bao status exits 0 (unsealed), 2 (sealed or not initialized) or 1 (error).
-      bao_pod status >/dev/null 2>&1
-      rc=$?
+      rc=0
+      bao_pod status >/dev/null 2>&1 || rc=$?
       if [ "$rc" = "0" ] || [ "$rc" = "2" ]; then return 0; fi
     fi
     sleep 5

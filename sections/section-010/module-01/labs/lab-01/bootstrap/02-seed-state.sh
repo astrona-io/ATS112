@@ -123,7 +123,9 @@ init_with_shares 5 3
 [ "$(seal_field sealed)" = "true" ] && unseal_with_shares 1 2 3
 BAO_TOKEN="$(root_token)"
 ensure_kv_v2
-DB_PASSWORD="lab-only-$(LC_ALL=C tr -dc 'a-z0-9' </dev/urandom | head -c 12)"
+# head closes the pipe after 12 bytes, so tr exits with SIGPIPE (141);
+# with pipefail that would fail the script.
+DB_PASSWORD="lab-only-$(LC_ALL=C tr -dc 'a-z0-9' </dev/urandom | head -c 12 || true)"
 bao_pod kv put secret/inventory/db username=inventory password="$DB_PASSWORD" >/dev/null
 
 KEY_TERM="$(bao_api GET /v1/sys/key-status | jq_field '.term // .data.term')"

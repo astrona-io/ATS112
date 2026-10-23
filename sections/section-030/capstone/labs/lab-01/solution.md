@@ -58,11 +58,11 @@ path "*" {
 }
 ```
 
-Write the policy, create a token with it, and test the token before you rely on it:
+Write the policy, create a token with it, and test the token before you rely on it. Create it with `-orphan`: a token made by the root token is otherwise its child, and revoking the root token in the next step would revoke it too.
 
 ```sh
 bao policy write admin policy-admin.hcl
-ADMIN_TOKEN="$(bao token create -policy=admin -ttl=24h -field=token)"
+ADMIN_TOKEN="$(bao token create -orphan -policy=admin -ttl=24h -field=token)"
 BAO_TOKEN="$ADMIN_TOKEN" bao kv get secret/inventory/db
 kubectl -n openbao create secret generic lab-answer --from-literal=token="$ADMIN_TOKEN"
 ```

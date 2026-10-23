@@ -48,11 +48,11 @@ path "*" {
 }
 ```
 
-Write the policy and create a token with it that is valid for 24 hours:
+Write the policy and create a token with it that is valid for 24 hours. A token that another token creates is its child, and revoking a token also revokes all its children. `-orphan` creates the token without a parent, so it survives when the root token is revoked:
 
 ```sh
 bao policy write admin policy-admin.hcl
-bao token create -policy=admin -ttl=24h
+bao token create -orphan -policy=admin -ttl=24h
 ```
 
 The output shows the new `token` and its `token_policies`, `["admin" "default"]`. Unlike the root token, it expires and it can be revoked alone. A real setup gives each administrator their own sign-in method and a tighter policy than full access to every path.
@@ -72,4 +72,5 @@ You can now replace the unseal keys, rotate the encryption key and run a server 
 > [!WARNING]
 > - **Mixing old and new shares.** After `rotate-keys` completes, the old shares stop working. Hand out the new ones at once.
 > - **Revoking the root token before an administrator token works.** Test the new token first, with `bao token lookup` and a real read.
+> - **Creating the administrator token without `-orphan`.** It is a child of the root token, so `bao token revoke -self` revokes it too.
 > - **Thinking `rotate` changes the unseal keys.** `rotate` changes the encryption key in the keyring; `rotate-keys` changes the unseal key shares.

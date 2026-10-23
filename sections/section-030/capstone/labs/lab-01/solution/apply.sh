@@ -134,7 +134,7 @@ bao_pod operator rotate >/dev/null
 # 3. An admin token with the given policy, kept for the grader.
 kubectl -n openbao exec -i openbao-0 -- sh -c 'cat > /tmp/policy-admin.hcl' < "$SCRIPT_DIR/../manifests/policy-admin.hcl"
 bao_pod policy write admin /tmp/policy-admin.hcl >/dev/null
-ADMIN_TOKEN="$(bao_pod token create -policy=admin -ttl=24h -field=token)"
+ADMIN_TOKEN="$(bao_pod token create -orphan -policy=admin -ttl=24h -field=token)"
 kubectl -n openbao create secret generic lab-answer --from-literal=token="$ADMIN_TOKEN" \
   --dry-run=client -o yaml | kubectl apply -f -
 

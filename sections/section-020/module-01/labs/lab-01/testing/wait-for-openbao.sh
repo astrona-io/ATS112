@@ -114,5 +114,13 @@ ensure_kv_v2() {
 seal_field() { bao_api GET /v1/sys/seal-status | jq_field ".$1"; }
 # --- end of shared helpers ---
 
-wait_started || { echo "OpenBao did not start in time."; exit 1; }
-echo "OpenBao answers."
+# This lab starts with a server configuration that keeps OpenBao from
+# answering; that fault is the task, and the reference solution waits for
+# OpenBao after its fix. Wait only until the pod exists and the tester runs.
+for _ in $(seq 1 120); do
+  kubectl -n openbao get pod openbao-0 >/dev/null 2>&1 && break
+  sleep 5
+done
+kubectl -n openbao get pod openbao-0 >/dev/null 2>&1 || { echo "The pod openbao-0 was not created."; exit 1; }
+kubectl -n clients rollout status deployment/tester --timeout=300s || { echo "The tester pod is not ready."; exit 1; }
+echo "The environment is up; OpenBao starts broken on purpose."

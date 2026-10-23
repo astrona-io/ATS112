@@ -53,9 +53,12 @@ ui:
   enabled: true
 ```
 
-The file leaves out `server.dev`, so development mode goes back to its default, off. Apply it and restart the pod, because the chart uses the `OnDelete` update strategy:
+The file leaves out `server.dev`, so development mode goes back to its default, off. It also turns the Raft data volume back on, and that changes the StatefulSet's `volumeClaimTemplates`, a field Kubernetes never changes on an existing StatefulSet. `helm upgrade` alone stops with `field is immutable`.
+
+So delete the StatefulSet first, but keep its pod with `--cascade=orphan`; Helm then creates a new StatefulSet. Apply the values, then restart the pod, because the chart uses the `OnDelete` update strategy:
 
 ```sh
+kubectl -n openbao delete statefulset openbao --cascade=orphan
 helm upgrade openbao openbao/openbao --version 0.30.4 -n openbao -f openbao-values.yaml
 kubectl -n openbao delete pod openbao-0
 ```

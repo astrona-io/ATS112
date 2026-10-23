@@ -118,6 +118,10 @@ seal_field() { bao_api GET /v1/sys/seal-status | jq_field ".$1"; }
 # --- end of shared helpers ---
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Development mode renders the StatefulSet without volumeClaimTemplates, a
+# field Kubernetes never changes on an existing StatefulSet. Remove the
+# StatefulSet but keep its pod (--cascade=orphan); Helm creates a new one.
+kubectl -n openbao delete statefulset openbao --cascade=orphan
 helm upgrade openbao openbao/openbao --version 0.30.4 --namespace openbao \
   --values "$SCRIPT_DIR/../manifests/dev-values.yaml"
 kubectl -n openbao delete pod openbao-0 --wait=true

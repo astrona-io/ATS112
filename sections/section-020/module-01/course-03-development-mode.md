@@ -37,7 +37,7 @@ That is the work of the section capstone. The checklist it follows is short:
 2. A `storage "raft"` block with a `path` on persistent storage and a `node_id`.
 3. `api_addr` with the address clients use.
 4. Any extra settings you need, such as `ui` and `log_level`.
-5. `helm upgrade`, delete the pod, initialize, unseal, and store your first secret.
+5. Delete the StatefulSet with `kubectl -n openbao delete statefulset openbao --cascade=orphan` (the data volume changes its `volumeClaimTemplates`, which Kubernetes never updates in place), then `helm upgrade`, delete the pod, initialize, unseal, and store your first secret.
 
 You now know what development mode is, how to recognise it from the seal status, and what moving to a real server involves. With the configuration file, the chart's path and the difference between both modes, you have what you need to run a server you can trust.
 
@@ -47,3 +47,4 @@ You now know what development mode is, how to recognise it from the seal status,
 > - **Using development mode "only for now".** Its data is gone at the next restart, and its root token is often written in scripts and chat messages.
 > - **Expecting data to survive the move.** A development server keeps nothing on disk. Recreate secrets on the real server.
 > - **Forgetting the pod restart.** The chart uses `OnDelete`; after `helm upgrade`, delete `openbao-0`.
+> - **Running `helm upgrade` straight from development mode.** It stops with `spec.volumeClaimTemplates: ... field is immutable`. Delete the StatefulSet with `--cascade=orphan` first; Helm creates a new one.

@@ -1,0 +1,249 @@
+# Knowledge check for section 030. Listed in astrona.yaml as a `type: quiz` entry after the capstone lab.
+schema_version: 1
+kind: question_bank
+course_id: ATS112
+exam_code: OPENBAO
+status: draft
+provenance: Original practice material written for this course; not official exam
+  questions.
+id: ats112-030
+scope:
+  type: section
+  id: section-030
+  title: Initializing, Unsealing And Sealing With bao
+placement:
+  position: after
+  reading: sections/section-030/capstone/labs/lab-01/question.md
+questions:
+- id: ats112-030-q01
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Read the status of an uninitialized server
+  source_readings:
+  - sections/section-030/module-01/course-01-initializing-a-server.md
+  prompt: What does `bao status` show for a server that is not initialized?
+  options:
+  - id: a
+    text: "`Initialized` is `false` and `Sealed` is `false`."
+    explanation: Not correct. A server with no keys cannot be unsealed.
+  - id: b
+    text: "`Initialized` is `true` and `Sealed` is `true`."
+    explanation: Not correct. Initialization has not happened yet.
+  - id: c
+    text: "`Initialized` is `false` and `Sealed` is `true`."
+    explanation: Correct. With no keys, the server always reports sealed.
+  - id: d
+    text: The command fails because the server has no token.
+    explanation: Not correct. `bao status` needs no token.
+  correct_option: c
+  explanation: Correct. With no keys, the server always reports sealed.
+- id: ats112-030-q02
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Choose shares and a threshold
+  source_readings:
+  - sections/section-030/module-01/course-01-initializing-a-server.md
+  prompt: What is the risk of a threshold equal to the number of key shares?
+  options:
+  - id: a
+    text: Losing one share makes the server impossible to unseal.
+    explanation: Correct. Every share is then needed.
+  - id: b
+    text: Any single share holder can unseal the server.
+    explanation: Not correct. That is the risk of a threshold of 1.
+  - id: c
+    text: The server cannot be initialized.
+    explanation: Not correct. Initialization works with that setting.
+  - id: d
+    text: The root token expires early.
+    explanation: Not correct. The threshold does not affect the root token.
+  correct_option: a
+  explanation: Correct. Every share is then needed.
+- id: ats112-030-q03
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Handle the output of operator init
+  source_readings:
+  - sections/section-030/module-01/course-01-initializing-a-server.md
+  prompt: Why is the output of `bao operator init` handled with great care?
+  options:
+  - id: a
+    text: It holds the data of every secret stored on the server.
+    explanation: Not correct. A new server holds no secrets.
+  - id: b
+    text: It holds the TLS certificate of the listener.
+    explanation: Not correct. Initialization does not create a listener certificate.
+  - id: c
+    text: It can be printed again later with `bao operator init -status`.
+    explanation: Not correct. That flag only tells whether the server is initialized.
+  - id: d
+    text: It holds the key shares and the root token, and OpenBao never shows them
+      again.
+    explanation: Correct. Lost copies cannot be recovered.
+  correct_option: d
+  explanation: Correct. Lost copies cannot be recovered.
+- id: ats112-030-q04
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Use PGP keys with initialization
+  source_readings:
+  - sections/section-030/module-01/course-01-initializing-a-server.md
+  prompt: What does the flag `-pgp-keys` do for `bao operator init`?
+  options:
+  - id: a
+    text: It signs the configuration file with a PGP key.
+    explanation: Not correct. The flag does not touch the configuration.
+  - id: b
+    text: It prints each key share already encrypted for its holder with a public
+      PGP key.
+    explanation: Correct. `-root-token-pgp-key` does the same for the root token.
+  - id: c
+    text: It encrypts the stored data with the PGP keys.
+    explanation: Not correct. The barrier encrypts the data with its own keys.
+  - id: d
+    text: It lets PGP key holders sign in without a token.
+    explanation: Not correct. Clients still need a token.
+  correct_option: b
+  explanation: Correct. `-root-token-pgp-key` does the same for the root token.
+- id: ats112-030-q05
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Know the state after init
+  source_readings:
+  - sections/section-030/module-01/course-02-unseal-sign-in-and-store.md
+  prompt: Right after `bao operator init` succeeds, what is the seal state of the
+    server?
+  options:
+  - id: a
+    text: Still sealed, because initialization does not unseal the server.
+    explanation: Correct. An operator must enter a threshold of shares.
+  - id: b
+    text: Unsealed, because initialization enters the shares automatically.
+    explanation: Not correct. Nobody enters shares during initialization.
+  - id: c
+    text: Unsealed for the first five minutes only.
+    explanation: Not correct. There is no such timer.
+  - id: d
+    text: Not initialized until the first unseal.
+    explanation: Not correct. The server is initialized once the command finishes.
+  correct_option: a
+  explanation: Correct. An operator must enter a threshold of shares.
+- id: ats112-030-q06
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Enable the KV version 2 engine
+  source_readings:
+  - sections/section-030/module-01/course-02-unseal-sign-in-and-store.md
+  prompt: Why does the course enable the engine with `bao secrets enable -path=secret
+    kv-v2` and not `kv`?
+  options:
+  - id: a
+    text: "`kv` is not a valid engine type."
+    explanation: Not correct. It is valid and creates version 1.
+  - id: b
+    text: "`kv-v2` encrypts the values and `kv` does not."
+    explanation: Not correct. The barrier encrypts both.
+  - id: c
+    text: "`kv` creates version 1, which keeps no history, while `kv-v2` keeps old
+      versions of each secret."
+    explanation: Correct. Version 2 is the engine the course uses.
+  - id: d
+    text: "`kv-v2` is the only engine that can use the path `secret/`."
+    explanation: Not correct. The path is chosen with `-path`.
+  correct_option: c
+  explanation: Correct. Version 2 is the engine the course uses.
+- id: ats112-030-q07
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Use the KV version 2 API path
+  source_readings:
+  - sections/section-030/module-01/course-02-unseal-sign-in-and-store.md
+  prompt: You read the secret `secret/app/config` of KV version 2 over HTTP. Which
+    API path holds the data?
+  options:
+  - id: a
+    text: "`secret/app/config`"
+    explanation: Not correct. That is the path of the `bao kv` command, not of the
+      HTTP API.
+  - id: b
+    text: "`secret/metadata/app/config`"
+    explanation: Not correct. That path holds the metadata, not the values.
+  - id: c
+    text: "`sys/secret/app/config`"
+    explanation: Not correct. The `sys/` mount does not hold secrets.
+  - id: d
+    text: "`secret/data/app/config`"
+    explanation: Correct. The `bao kv` command adds `data/` for you.
+  correct_option: d
+  explanation: Correct. The `bao kv` command adds `data/` for you.
+- id: ats112-030-q08
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Run a key rotation
+  source_readings:
+  - sections/section-030/module-01/course-03-rotating-keys-and-the-root-token.md
+  prompt: What does `bao operator rotate-keys` need to change the unseal key shares?
+  options:
+  - id: a
+    text: No shares at all, only the root token.
+    explanation: Not correct. The change must be authorized by a threshold of current
+      shares.
+  - id: b
+    text: A threshold of the current shares, entered with the nonce of the rotation.
+      The server stays unsealed.
+    explanation: Correct. The old shares stop working when the rotation completes.
+  - id: c
+    text: The server must be sealed first.
+    explanation: Not correct. Rotation runs while the server serves requests.
+  - id: d
+    text: A threshold of the new shares.
+    explanation: Not correct. The new shares do not exist until the rotation completes.
+  correct_option: b
+  explanation: Correct. The old shares stop working when the rotation completes.
+- id: ats112-030-q09
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Tell rotate and rotate-keys apart
+  source_readings:
+  - sections/section-030/module-01/course-03-rotating-keys-and-the-root-token.md
+  prompt: What does `bao operator rotate` change?
+  options:
+  - id: a
+    text: It adds a new encryption key to the keyring, and it needs no key shares
+      and causes no downtime.
+    explanation: Correct. Older keys stay in the keyring to read older data.
+  - id: b
+    text: It creates a new set of unseal key shares.
+    explanation: Not correct. That is `rotate-keys`.
+  - id: c
+    text: It creates a new root token.
+    explanation: Not correct. `generate-root` does that.
+  - id: d
+    text: It seals the server and changes the root key.
+    explanation: Not correct. It does not seal the server.
+  correct_option: a
+  explanation: Correct. Older keys stay in the keyring to read older data.
+- id: ats112-030-q10
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Retire the root token safely
+  source_readings:
+  - sections/section-030/module-01/course-03-rotating-keys-and-the-root-token.md
+  prompt: Why does the course create the administrator token with `-orphan` before
+    the root token is revoked?
+  options:
+  - id: a
+    text: An orphan token never expires.
+    explanation: Not correct. It still has a time to live, for example 24 hours.
+  - id: b
+    text: "`-orphan` gives the token the root policy."
+    explanation: Not correct. The policy comes from `-policy`.
+  - id: c
+    text: Only an orphan token can read KV secrets.
+    explanation: Not correct. Any token with a matching policy can.
+  - id: d
+    text: A token created by the root token is its child, and revoking the root token
+      also revokes its children.
+    explanation: Correct. An orphan token has no parent, so it survives.
+  correct_option: d
+  explanation: Correct. An orphan token has no parent, so it survives.

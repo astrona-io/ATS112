@@ -1,0 +1,234 @@
+# Final domain knowledge check across all three sections.
+schema_version: 1
+kind: question_bank
+course_id: ATS112
+exam_code: OPENBAO
+status: draft
+provenance: Original practice material written for this course; not official exam
+  questions.
+id: ats112-final
+scope:
+  type: domain
+  id: openbao-fundamentals
+  title: 'OpenBao: Fundamentals, Architecture & CLI Operations'
+questions:
+- id: ats112-final-q01
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Name the parts of the server that handle a request
+  source_readings:
+  - sections/section-010/module-01/course-01-what-openbao-is.md
+  prompt: Which part of OpenBao encrypts every value on its way to the storage backend
+    and decrypts it on the way back?
+  options:
+  - id: a
+    text: The router.
+    explanation: Not correct. The router only sends the request to the mount that
+      owns the path.
+  - id: b
+    text: The token store.
+    explanation: Not correct. The token store checks that the token exists and has
+      not expired.
+  - id: c
+    text: The barrier.
+    explanation: Correct. Every read and write passes through the barrier.
+  - id: d
+    text: The policy check.
+    explanation: Not correct. The policy check decides whether the token's policies
+      allow the operation.
+  correct_option: c
+  explanation: Correct. Every read and write passes through the barrier.
+- id: ats112-final-q02
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Order the layers of keys
+  source_readings:
+  - sections/section-010/module-01/course-02-barrier-root-key-and-shamir.md
+  prompt: Which key encrypts the root key?
+  options:
+  - id: a
+    text: The encryption key in the keyring.
+    explanation: Not correct. The encryption keys encrypt the data, and the root key
+      encrypts the keyring.
+  - id: b
+    text: The unseal key.
+    explanation: Correct. The unseal key protects the root key, and people hold it
+      in key shares.
+  - id: c
+    text: The root token.
+    explanation: Not correct. The root token is a credential for API requests, not
+      an encryption key.
+  - id: d
+    text: The TLS certificate of the listener.
+    explanation: Not correct. The certificate protects traffic, not the stored keys.
+  correct_option: b
+  explanation: Correct. The unseal key protects the root key, and people hold it in
+    key shares.
+- id: ats112-final-q03
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Explain auto-unseal and recovery keys
+  source_readings:
+  - sections/section-010/module-01/course-02-barrier-root-key-and-shamir.md
+  prompt: A server uses auto-unseal with a cloud key management service. What does
+    initialization return, and what can it do?
+  options:
+  - id: a
+    text: Unseal keys, which an operator must enter after every restart.
+    explanation: Not correct. Entering shares by hand is the default Shamir seal,
+      not auto-unseal.
+  - id: b
+    text: Nothing. No keys are returned with auto-unseal.
+    explanation: Not correct. Recovery keys are returned and protect sensitive operations.
+  - id: c
+    text: Recovery keys, which unseal the server when the cloud service is not reachable.
+    explanation: Not correct. Recovery keys cannot unseal the server.
+  - id: d
+    text: Recovery keys, which authorize sensitive operations but cannot unseal the
+      server.
+    explanation: Correct. The outside service unseals the server, not the recovery
+      keys.
+  correct_option: d
+  explanation: Correct. The outside service unseals the server, not the recovery keys.
+- id: ats112-final-q04
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Predict the effect of a changed storage path
+  source_readings:
+  - sections/section-020/module-01/course-01-server-configuration-file.md
+  prompt: The `path` of the `storage "raft"` block is changed to a different folder
+    and the server restarts. What happens?
+  options:
+  - id: a
+    text: The server finds empty storage and starts as not initialized, while the
+      old data stays in the old folder.
+    explanation: Correct. The secrets seem gone, but the data was not deleted.
+  - id: b
+    text: The server refuses to start and logs an error about the unknown path.
+    explanation: Not correct. OpenBao does not complain about an empty folder.
+  - id: c
+    text: The server copies the data from the old folder to the new one.
+    explanation: Not correct. OpenBao never moves data between folders.
+  - id: d
+    text: The server starts unsealed with the old data.
+    explanation: Not correct. It cannot read data it does not look at.
+  correct_option: a
+  explanation: Correct. The secrets seem gone, but the data was not deleted.
+- id: ats112-final-q05
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Find the Helm value for the configuration
+  source_readings:
+  - sections/section-020/module-01/course-02-how-the-helm-chart-runs-the-server.md
+  prompt: Which Helm value holds the HCL configuration of a standalone OpenBao server?
+  options:
+  - id: a
+    text: "`server.dev.config`"
+    explanation: Not correct. `server.dev.enabled` only switches on development mode.
+  - id: b
+    text: "`ui.config`"
+    explanation: Not correct. The `ui` value controls the web interface, not the configuration
+      file.
+  - id: c
+    text: "`server.standalone.config`"
+    explanation: Correct. The chart writes it into the ConfigMap `openbao-config`.
+  - id: d
+    text: "`injector.config`"
+    explanation: Not correct. The injector is a separate component.
+  correct_option: c
+  explanation: Correct. The chart writes it into the ConfigMap `openbao-config`.
+- id: ats112-final-q06
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Move from development mode to a real server
+  source_readings:
+  - sections/section-020/module-01/course-03-development-mode.md
+  prompt: "`helm upgrade` from development mode stops with `spec.volumeClaimTemplates:
+    ... field is immutable`. What is the fix?"
+  options:
+  - id: a
+    text: Add `--force` to the Kubernetes pod and wait.
+    explanation: Not correct. The error comes from the StatefulSet, not from the pod.
+  - id: b
+    text: 'Set `server.dev.enabled: true` in the values.'
+    explanation: Not correct. That keeps the server in development mode.
+  - id: c
+    text: Run `bao operator init` on the development server.
+    explanation: Not correct. A development server is already initialized and the
+      error is a Kubernetes error.
+  - id: d
+    text: Delete the StatefulSet with `--cascade=orphan`, then run `helm upgrade`
+      again so Helm creates a new one.
+    explanation: Correct. Kubernetes never changes `volumeClaimTemplates` in place.
+  correct_option: d
+  explanation: Correct. Kubernetes never changes `volumeClaimTemplates` in place.
+- id: ats112-final-q07
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Handle the output of operator init
+  source_readings:
+  - sections/section-030/module-01/course-01-initializing-a-server.md
+  prompt: Why is the output of `bao operator init` handled with great care?
+  options:
+  - id: a
+    text: It holds the data of every secret stored on the server.
+    explanation: Not correct. A new server holds no secrets.
+  - id: b
+    text: It holds the TLS certificate of the listener.
+    explanation: Not correct. Initialization does not create a listener certificate.
+  - id: c
+    text: It can be printed again later with `bao operator init -status`.
+    explanation: Not correct. That flag only tells whether the server is initialized.
+  - id: d
+    text: It holds the key shares and the root token, and OpenBao never shows them
+      again.
+    explanation: Correct. Lost copies cannot be recovered.
+  correct_option: d
+  explanation: Correct. Lost copies cannot be recovered.
+- id: ats112-final-q08
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Know the state after init
+  source_readings:
+  - sections/section-030/module-01/course-02-unseal-sign-in-and-store.md
+  prompt: Right after `bao operator init` succeeds, what is the seal state of the
+    server?
+  options:
+  - id: a
+    text: Still sealed, because initialization does not unseal the server.
+    explanation: Correct. An operator must enter a threshold of shares.
+  - id: b
+    text: Unsealed, because initialization enters the shares automatically.
+    explanation: Not correct. Nobody enters shares during initialization.
+  - id: c
+    text: Unsealed for the first five minutes only.
+    explanation: Not correct. There is no such timer.
+  - id: d
+    text: Not initialized until the first unseal.
+    explanation: Not correct. The server is initialized once the command finishes.
+  correct_option: a
+  explanation: Correct. An operator must enter a threshold of shares.
+- id: ats112-final-q09
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Run a key rotation
+  source_readings:
+  - sections/section-030/module-01/course-03-rotating-keys-and-the-root-token.md
+  prompt: What does `bao operator rotate-keys` need to change the unseal key shares?
+  options:
+  - id: a
+    text: No shares at all, only the root token.
+    explanation: Not correct. The change must be authorized by a threshold of current
+      shares.
+  - id: b
+    text: A threshold of the current shares, entered with the nonce of the rotation.
+      The server stays unsealed.
+    explanation: Correct. The old shares stop working when the rotation completes.
+  - id: c
+    text: The server must be sealed first.
+    explanation: Not correct. Rotation runs while the server serves requests.
+  - id: d
+    text: A threshold of the new shares.
+    explanation: Not correct. The new shares do not exist until the rotation completes.
+  correct_option: b
+  explanation: Correct. The old shares stop working when the rotation completes.

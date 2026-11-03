@@ -1,0 +1,251 @@
+# Knowledge check for section 020. Listed in astrona.yaml as a `type: quiz` entry after the capstone lab.
+schema_version: 1
+kind: question_bank
+course_id: ATS112
+exam_code: OPENBAO
+status: draft
+provenance: Original practice material written for this course; not official exam
+  questions.
+id: ats112-020
+scope:
+  type: section
+  id: section-020
+  title: Configuring The OpenBao Server
+placement:
+  position: after
+  reading: sections/section-020/capstone/labs/lab-01/question.md
+questions:
+- id: ats112-020-q01
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Read a listener block
+  source_readings:
+  - sections/section-020/module-01/course-01-server-configuration-file.md
+  prompt: What does `address = "[::]:8200"` in a `listener "tcp"` block mean?
+  options:
+  - id: a
+    text: OpenBao accepts requests only from the local machine.
+    explanation: Not correct. Only a loopback address would limit it to the local
+      machine.
+  - id: b
+    text: OpenBao sends cluster traffic to port 8200 of another server.
+    explanation: Not correct. Cluster traffic uses `cluster_address`, here port 8201.
+  - id: c
+    text: OpenBao accepts API requests on port 8200 on every network interface.
+    explanation: Correct. `[::]` stands for all addresses and includes IPv4.
+  - id: d
+    text: OpenBao accepts requests only over IPv6.
+    explanation: Not correct. The address also includes IPv4.
+  correct_option: c
+  explanation: Correct. `[::]` stands for all addresses and includes IPv4.
+- id: ats112-020-q02
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Predict the effect of a changed storage path
+  source_readings:
+  - sections/section-020/module-01/course-01-server-configuration-file.md
+  prompt: The `path` of the `storage "raft"` block is changed to a different folder
+    and the server restarts. What happens?
+  options:
+  - id: a
+    text: The server finds empty storage and starts as not initialized, while the
+      old data stays in the old folder.
+    explanation: Correct. The secrets seem gone, but the data was not deleted.
+  - id: b
+    text: The server refuses to start and logs an error about the unknown path.
+    explanation: Not correct. OpenBao does not complain about an empty folder.
+  - id: c
+    text: The server copies the data from the old folder to the new one.
+    explanation: Not correct. OpenBao never moves data between folders.
+  - id: d
+    text: The server starts unsealed with the old data.
+    explanation: Not correct. It cannot read data it does not look at.
+  correct_option: a
+  explanation: Correct. The secrets seem gone, but the data was not deleted.
+- id: ats112-020-q03
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Explain api_addr
+  source_readings:
+  - sections/section-020/module-01/course-01-server-configuration-file.md
+  prompt: What is the setting `api_addr` for?
+  options:
+  - id: a
+    text: It is the address other servers use for cluster traffic.
+    explanation: Not correct. That is `cluster_addr`.
+  - id: b
+    text: It is the address on which the listener binds.
+    explanation: Not correct. The listener uses its own `address` setting.
+  - id: c
+    text: It is the address of the storage backend.
+    explanation: Not correct. The `storage` block sets the storage location.
+  - id: d
+    text: It is the full URL that clients should use to reach this server, for example
+      when a standby server redirects a client.
+    explanation: Correct. It can also come from `BAO_API_ADDR`.
+  correct_option: d
+  explanation: Correct. It can also come from `BAO_API_ADDR`.
+- id: ats112-020-q04
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Recognise an obsolete setting
+  source_readings:
+  - sections/section-020/module-01/course-01-server-configuration-file.md
+  prompt: A guide for HashiCorp Vault tells you to set `disable_mlock`. What should
+    you do in an OpenBao configuration?
+  options:
+  - id: a
+    text: Set it to `true` to keep keys out of swap space.
+    explanation: Not correct. The memory locking feature no longer exists.
+  - id: b
+    text: Remove the line, because OpenBao removed memory locking and the setting
+      only produces a message.
+    explanation: Correct. The setting is obsolete.
+  - id: c
+    text: Set it to `false` so the server locks its memory.
+    explanation: Not correct. The feature is removed, so the value does nothing.
+  - id: d
+    text: Move it into the `seal` block.
+    explanation: Not correct. It is not a seal setting.
+  correct_option: b
+  explanation: Correct. The setting is obsolete.
+- id: ats112-020-q05
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Check a configuration file
+  source_readings:
+  - sections/section-020/module-01/course-01-server-configuration-file.md
+  prompt: What does `bao operator validate-config` check?
+  options:
+  - id: a
+    text: 'Only the file: its syntax and settings.'
+    explanation: Correct. It does not check the folder or the port.
+  - id: b
+    text: That the storage folder is writable and the port is free.
+    explanation: Not correct. It does not check the running system.
+  - id: c
+    text: That the server is unsealed and healthy.
+    explanation: Not correct. It reads a file and does not contact a server.
+  - id: d
+    text: That the Helm release is up to date.
+    explanation: Not correct. It does not look at Helm.
+  correct_option: a
+  explanation: Correct. It does not check the folder or the port.
+- id: ats112-020-q06
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Find the Helm value for the configuration
+  source_readings:
+  - sections/section-020/module-01/course-02-how-the-helm-chart-runs-the-server.md
+  prompt: Which Helm value holds the HCL configuration of a standalone OpenBao server?
+  options:
+  - id: a
+    text: "`server.dev.config`"
+    explanation: Not correct. `server.dev.enabled` only switches on development mode.
+  - id: b
+    text: "`ui.config`"
+    explanation: Not correct. The `ui` value controls the web interface, not the configuration
+      file.
+  - id: c
+    text: "`server.standalone.config`"
+    explanation: Correct. The chart writes it into the ConfigMap `openbao-config`.
+  - id: d
+    text: "`injector.config`"
+    explanation: Not correct. The injector is a separate component.
+  correct_option: c
+  explanation: Correct. The chart writes it into the ConfigMap `openbao-config`.
+- id: ats112-020-q07
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Explain the OnDelete update strategy
+  source_readings:
+  - sections/section-020/module-01/course-02-how-the-helm-chart-runs-the-server.md
+  prompt: The StatefulSet of the chart uses the update strategy `OnDelete`. What does
+    that mean after a `helm upgrade`?
+  options:
+  - id: a
+    text: Kubernetes deletes and recreates the pod at once.
+    explanation: Not correct. That is the `RollingUpdate` strategy.
+  - id: b
+    text: Kubernetes pushes the new file into the running process.
+    explanation: Not correct. Nothing pushes a change into a running server.
+  - id: c
+    text: Helm deletes the pod during the upgrade.
+    explanation: Not correct. Helm does not delete the pod for you.
+  - id: d
+    text: Kubernetes does not replace the pod until someone deletes it, so the running
+      process keeps the old configuration.
+    explanation: Correct. The pod reads the file only at start.
+  correct_option: d
+  explanation: Correct. The pod reads the file only at start.
+- id: ats112-020-q08
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Order the steps of a configuration change
+  source_readings:
+  - sections/section-020/module-01/course-02-how-the-helm-chart-runs-the-server.md
+  prompt: Which order makes a configuration change count on the chart's standalone
+    server?
+  options:
+  - id: a
+    text: Delete the pod, run `helm upgrade`, then unseal the old pod.
+    explanation: Not correct. The old pod is gone, and the upgrade comes first.
+  - id: b
+    text: Run `helm upgrade`, delete the pod, then unseal the new pod.
+    explanation: Correct. A restart seals OpenBao, so the unseal comes last.
+  - id: c
+    text: Run `helm upgrade`, then run `bao operator init` on the new configuration.
+    explanation: Not correct. The server is already initialized, and it needs an unseal.
+  - id: d
+    text: Edit the ConfigMap with `kubectl edit`, then run `helm upgrade`.
+    explanation: Not correct. The upgrade overwrites a ConfigMap edit.
+  correct_option: b
+  explanation: Correct. A restart seals OpenBao, so the unseal comes last.
+- id: ats112-020-q09
+  type: single_choice
+  difficulty: beginner
+  learning_objective: Recognise a development server
+  source_readings:
+  - sections/section-020/module-01/course-03-development-mode.md
+  prompt: Which `storage_type` does `/v1/sys/seal-status` report for a server in development
+    mode?
+  options:
+  - id: a
+    text: "`inmem`"
+    explanation: Correct. A development server keeps all data in memory.
+  - id: b
+    text: "`raft`"
+    explanation: Not correct. `raft` is Integrated Storage, which keeps data on disk.
+  - id: c
+    text: "`file`"
+    explanation: Not correct. A development server writes nothing to files.
+  - id: d
+    text: "`dev`"
+    explanation: Not correct. The storage type names where data is kept, not the mode.
+  correct_option: a
+  explanation: Correct. A development server keeps all data in memory.
+- id: ats112-020-q10
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: Move from development mode to a real server
+  source_readings:
+  - sections/section-020/module-01/course-03-development-mode.md
+  prompt: "`helm upgrade` from development mode stops with `spec.volumeClaimTemplates:
+    ... field is immutable`. What is the fix?"
+  options:
+  - id: a
+    text: Add `--force` to the Kubernetes pod and wait.
+    explanation: Not correct. The error comes from the StatefulSet, not from the pod.
+  - id: b
+    text: 'Set `server.dev.enabled: true` in the values.'
+    explanation: Not correct. That keeps the server in development mode.
+  - id: c
+    text: Run `bao operator init` on the development server.
+    explanation: Not correct. A development server is already initialized and the
+      error is a Kubernetes error.
+  - id: d
+    text: Delete the StatefulSet with `--cascade=orphan`, then run `helm upgrade`
+      again so Helm creates a new one.
+    explanation: Correct. Kubernetes never changes `volumeClaimTemplates` in place.
+  correct_option: d
+  explanation: Correct. Kubernetes never changes `volumeClaimTemplates` in place.

@@ -1,0 +1,236 @@
+# Knowledge check for module 03 of section 030. Listed in astrona.yaml as a `type: quiz` entry after the module summary.
+schema_version: 1
+kind: question_bank
+course_id: ATS112
+exam_code: OPENBAO
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+id: ats112-030-m03
+scope:
+  type: module
+  id: module-03
+  title: "Auth Methods And Secrets Engines"
+placement:
+  position: after
+  reading: sections/section-030/module-03/course-05-summary.md
+questions:
+- id: ats112-030-m03-q01
+  type: single_choice
+  difficulty: beginner
+  learning_objective: "Explain what an auth method returns"
+  source_readings:
+  - sections/section-030/module-03/course-01-how-auth-methods-work-and-userpass.md
+  prompt: "What does a successful login through any auth method return?"
+  options:
+  - id: a
+    text: "A token with policies attached."
+    explanation: "Correct. Every later request uses that token."
+  - id: b
+    text: "A copy of the root token."
+    explanation: "Not correct. A login creates a new token with the policies of the user or role."
+  - id: c
+    text: "A permanent password for the client."
+    explanation: "Not correct. The client receives a token with a time limit."
+  - id: d
+    text: "A new unseal key."
+    explanation: "Not correct. Unseal keys are not related to logins."
+  correct_option: a
+  explanation: "Correct. Every later request uses that token."
+- id: ats112-030-m03-q02
+  type: single_choice
+  difficulty: beginner
+  learning_objective: "Enable an auth method"
+  source_readings:
+  - sections/section-030/module-03/course-01-how-auth-methods-work-and-userpass.md
+  prompt: "Which command enables the userpass auth method at the default path?"
+  options:
+  - id: a
+    text: "`bao secrets enable userpass`"
+    explanation: "Not correct. That command enables secrets engines."
+  - id: b
+    text: "`bao enable auth userpass`"
+    explanation: "Not correct. The word order is wrong."
+  - id: c
+    text: "`bao login enable userpass`"
+    explanation: "Not correct. That command does not exist."
+  - id: d
+    text: "`bao auth enable userpass`"
+    explanation: "Correct. The method is then available at `auth/userpass/`."
+  correct_option: d
+  explanation: "Correct. The method is then available at `auth/userpass/`."
+- id: ats112-030-m03-q03
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: "Log in with a method"
+  source_readings:
+  - sections/section-030/module-03/course-01-how-auth-methods-work-and-userpass.md
+  prompt: "Which command logs a user in with the userpass method from the command line?"
+  options:
+  - id: a
+    text: "`bao login userpass <name>`"
+    explanation: "Not correct. The method is selected with `-method`."
+  - id: b
+    text: "`bao auth login <name>`"
+    explanation: "Not correct. That command does not exist."
+  - id: c
+    text: "`bao login -method=userpass username=<name>`"
+    explanation: "Correct. The command asks for the password and stores the token for later calls."
+  - id: d
+    text: "`bao token create -user=<name>`"
+    explanation: "Not correct. It creates a token without a login."
+  correct_option: c
+  explanation: "Correct. The command asks for the password and stores the token for later calls."
+- id: ats112-030-m03-q04
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: "Explain the role ID and secret ID"
+  source_readings:
+  - sections/section-030/module-03/course-02-approle-for-applications.md
+  prompt: "What do the two values of an AppRole login represent?"
+  options:
+  - id: a
+    text: "The role ID is the password and the secret ID is the user name."
+    explanation: "Not correct. The values are the other way round."
+  - id: b
+    text: "The role ID identifies the role, and the secret ID is the credential used with it."
+    explanation: "Correct. The role ID is not a secret on its own; the secret ID needs more care."
+  - id: c
+    text: "Both are tokens that the application passes on every request."
+    explanation: "Not correct. They are used once, at login."
+  - id: d
+    text: "The role ID is the unseal key and the secret ID is the root token."
+    explanation: "Not correct. They are not related to initialization."
+  correct_option: b
+  explanation: "Correct. The role ID is not a secret on its own; the secret ID needs more care."
+- id: ats112-030-m03-q05
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: "Limit how often a secret ID works"
+  source_readings:
+  - sections/section-030/module-03/course-02-approle-for-applications.md
+  prompt: "Which role setting makes a secret ID usable only once?"
+  options:
+  - id: a
+    text: "`secret_id_num_uses=1`"
+    explanation: "Correct. A value of 0 means unlimited uses."
+  - id: b
+    text: "`token_num_uses=1`"
+    explanation: "Not correct. It limits the tokens, not the secret ID."
+  - id: c
+    text: "`secret_id_ttl=1`"
+    explanation: "Not correct. It sets a lifetime of one second."
+  - id: d
+    text: "`bind_secret_id=false`"
+    explanation: "Not correct. It removes the need for a secret ID."
+  correct_option: a
+  explanation: "Correct. A value of 0 means unlimited uses."
+- id: ats112-030-m03-q06
+  type: single_choice
+  difficulty: beginner
+  learning_objective: "Choose a method for pods"
+  source_readings:
+  - sections/section-030/module-03/course-03-kubernetes-authentication.md
+  prompt: "Which auth method lets a pod log in with its Kubernetes service account token?"
+  options:
+  - id: a
+    text: "The userpass method."
+    explanation: "Not correct. It checks a user name and password."
+  - id: b
+    text: "The AppRole method."
+    explanation: "Not correct. It checks a role ID and a secret ID."
+  - id: c
+    text: "The root method."
+    explanation: "Not correct. There is no such method."
+  - id: d
+    text: "The Kubernetes method."
+    explanation: "Correct. OpenBao checks the token with a TokenReview request to the Kubernetes API."
+  correct_option: d
+  explanation: "Correct. OpenBao checks the token with a TokenReview request to the Kubernetes API."
+- id: ats112-030-m03-q07
+  type: single_choice
+  difficulty: advanced
+  learning_objective: "Know the Kubernetes permission"
+  source_readings:
+  - sections/section-030/module-03/course-03-kubernetes-authentication.md
+  prompt: "Which Kubernetes permission does OpenBao need to validate a service account token?"
+  options:
+  - id: a
+    text: "The right to read all Secrets in the cluster."
+    explanation: "Not correct. TokenReview does not need Secret access."
+  - id: b
+    text: "The `cluster-admin` role only."
+    explanation: "Not correct. A narrower role is enough and safer."
+  - id: c
+    text: "The right to create TokenReview requests, for example through the `system:auth-delegator` role."
+    explanation: "Correct. The service account OpenBao uses is bound to this role."
+  - id: d
+    text: "No permission at all."
+    explanation: "Not correct. The API call is refused without it."
+  correct_option: c
+  explanation: "Correct. The service account OpenBao uses is bound to this role."
+- id: ats112-030-m03-q08
+  type: single_choice
+  difficulty: beginner
+  learning_objective: "Describe transit"
+  source_readings:
+  - sections/section-030/module-03/course-04-the-transit-secrets-engine.md
+  prompt: "What does the transit secrets engine do with the data you send to it?"
+  options:
+  - id: a
+    text: "It stores the data in the KV engine."
+    explanation: "Not correct. Transit does not store the data."
+  - id: b
+    text: "It encrypts or decrypts it and returns the result, without storing the data."
+    explanation: "Correct. The application stores the ciphertext itself."
+  - id: c
+    text: "It returns the encryption key to the caller."
+    explanation: "Not correct. The key never leaves OpenBao."
+  - id: d
+    text: "It signs the data and discards it."
+    explanation: "Not correct. Signing is a separate operation."
+  correct_option: b
+  explanation: "Correct. The application stores the ciphertext itself."
+- id: ats112-030-m03-q09
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: "Encode data for transit"
+  source_readings:
+  - sections/section-030/module-03/course-04-the-transit-secrets-engine.md
+  prompt: "In what form must the plaintext be sent to the transit encrypt endpoint?"
+  options:
+  - id: a
+    text: "Base64-encoded."
+    explanation: "Correct. This allows binary data and keeps the JSON valid."
+  - id: b
+    text: "Hex-encoded."
+    explanation: "Not correct. The endpoint expects base64."
+  - id: c
+    text: "Compressed with gzip."
+    explanation: "Not correct. The endpoint does not decompress."
+  - id: d
+    text: "Encrypted with a client key first."
+    explanation: "Not correct. Transit does the encryption."
+  correct_option: a
+  explanation: "Correct. This allows binary data and keeps the JSON valid."
+- id: ats112-030-m03-q10
+  type: single_choice
+  difficulty: advanced
+  learning_objective: "Use rewrap after rotation"
+  source_readings:
+  - sections/section-030/module-03/course-04-the-transit-secrets-engine.md
+  prompt: "You rotated a transit key. How do you move old ciphertext to the newest key version without exposing the plaintext?"
+  options:
+  - id: a
+    text: "Decrypt it in the application and encrypt it again."
+    explanation: "Not correct. This exposes the plaintext to the application."
+  - id: b
+    text: "Delete the old key version."
+    explanation: "Not correct. The ciphertext could then not be decrypted."
+  - id: c
+    text: "Nothing. Old ciphertext is converted automatically."
+    explanation: "Not correct. Existing ciphertext stays on its version until rewrapped."
+  - id: d
+    text: "Send the ciphertext to the rewrap endpoint."
+    explanation: "Correct. OpenBao decrypts and encrypts again inside the server."
+  correct_option: d
+  explanation: "Correct. OpenBao decrypts and encrypts again inside the server."

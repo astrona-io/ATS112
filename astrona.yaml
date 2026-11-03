@@ -155,6 +155,51 @@ modules:
         pass_score: 70
 
       - type: reading
+        title: "Run A Three-Node OpenBao Cluster"
+        path: sections/section-010/module-03/course.md
+      - type: reading
+        title: "Helm Values For A Raft Cluster"
+        path: sections/section-010/module-03/course-01-helm-values-for-a-raft-cluster.md
+      - type: reading
+        title: "Joining And Unsealing The Nodes"
+        path: sections/section-010/module-03/course-02-joining-and-unsealing-the-nodes.md
+      - type: reading
+        title: Question
+        path: sections/section-010/module-03/labs/lab-01/question.md
+      - type: lab
+        title: "Turn A Single OpenBao Node Into A Three-Node Cluster Lab"
+        path: sections/section-010/module-03/labs/lab-01
+        difficulty: advanced
+        estimated_duration: 25m
+        topic: storage
+        task_kind: migration
+        tags: [storage-raft, helm-chart, operator-unseal, bao-cli, kv]
+        learning_goals:
+          - Change a Helm release from one node to three Raft nodes without losing data
+          - Restart the first node on the new configuration and unseal it
+          - Unseal the new nodes so all three vote
+        resources:
+          - name: "Integrated Storage (Raft) configuration"
+            url: https://openbao.org/docs/configuration/storage/raft/
+          - name: "High availability"
+            url: https://openbao.org/docs/concepts/ha/
+          - name: "Run OpenBao with the Helm chart"
+            url: https://openbao.org/docs/platform/k8s/helm/
+      - type: reading
+        title: "Losing A Node"
+        path: sections/section-010/module-03/course-03-losing-a-node.md
+      - type: reading
+        title: "Autopilot And Maintenance"
+        path: sections/section-010/module-03/course-04-autopilot-and-maintenance.md
+      - type: reading
+        title: "Summary"
+        path: sections/section-010/module-03/course-05-summary.md
+      - type: quiz
+        title: "Knowledge Check: Run A Three-Node OpenBao Cluster"
+        path: sections/section-010/module-03/quiz.yaml
+        pass_score: 70
+
+      - type: reading
         title: Question
         path: sections/section-010/capstone/labs/lab-01/question.md
       - type: lab
@@ -407,6 +452,51 @@ modules:
       - type: quiz
         title: "Knowledge Check: Daily Work With The bao Command-Line Tool"
         path: sections/section-030/module-02/quiz.yaml
+        pass_score: 70
+
+      - type: reading
+        title: "Auth Methods And Secrets Engines"
+        path: sections/section-030/module-03/course.md
+      - type: reading
+        title: "How Auth Methods Work And Userpass"
+        path: sections/section-030/module-03/course-01-how-auth-methods-work-and-userpass.md
+      - type: reading
+        title: "AppRole For Applications"
+        path: sections/section-030/module-03/course-02-approle-for-applications.md
+      - type: reading
+        title: Question
+        path: sections/section-030/module-03/labs/lab-01/question.md
+      - type: lab
+        title: "Give An Application An AppRole Login Lab"
+        path: sections/section-030/module-03/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 20m
+        topic: cli
+        task_kind: build
+        tags: [bao-cli, kv, http-api, root-token]
+        learning_goals:
+          - Enable the AppRole method and create a role with a policy and short token TTL
+          - Get a role ID and a secret ID and store them in a Kubernetes Secret
+          - Prove the login reads one folder and is denied elsewhere
+        resources:
+          - name: "AppRole auth method"
+            url: https://openbao.org/docs/auth/approle/
+          - name: "Auth methods"
+            url: https://openbao.org/docs/auth/
+          - name: "Policies"
+            url: https://openbao.org/docs/concepts/policies/
+      - type: reading
+        title: "Kubernetes Authentication"
+        path: sections/section-030/module-03/course-03-kubernetes-authentication.md
+      - type: reading
+        title: "The Transit Secrets Engine"
+        path: sections/section-030/module-03/course-04-the-transit-secrets-engine.md
+      - type: reading
+        title: "Summary"
+        path: sections/section-030/module-03/course-05-summary.md
+      - type: quiz
+        title: "Knowledge Check: Auth Methods And Secrets Engines"
+        path: sections/section-030/module-03/quiz.yaml
         pass_score: 70
 
       - type: reading

@@ -19,7 +19,7 @@ You start with what OpenBao is and how a request travels through it. Then you op
 
 ## The learning path
 
-The section has two modules. Each has a landing page, short parts, a graded lab right after the part it tests, and a summary. The module's playground starts from its landing page.
+The section has three modules. Each has a landing page, short parts, a graded lab right after the part it tests, and a summary. The module's playground starts from its landing page.
 
 ### 1. Understand How OpenBao Protects Data
 
@@ -39,6 +39,16 @@ The playground holds a one-node server that is initialized and unsealed.
 2. Recovery Keys And Seal Migration
 3. Raft Cluster And High Availability
 4. Raft Snapshots, followed by the lab **Restore OpenBao From A Raft Snapshot**
+5. Summary
+
+### 3. Run A Three-Node OpenBao Cluster
+
+The playground holds a three-node Raft cluster. The first node is unsealed and the other two are sealed.
+
+1. Helm Values For A Raft Cluster
+2. Joining And Unsealing The Nodes, followed by the lab **Turn A Single OpenBao Node Into A Three-Node Cluster**
+3. Losing A Node
+4. Autopilot And Maintenance
 5. Summary
 
 ## Section capstone: Unseal A Server When One Key Share Is Wrong

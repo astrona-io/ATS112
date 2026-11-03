@@ -42,10 +42,12 @@ init` to rotating keys and retiring the root token.
 | --- | --- | --- | --- |
 | 010-01 | [Understand How OpenBao Protects Data](sections/section-010/module-01/course.md) | 4 | [lab-01](sections/section-010/module-01/labs/lab-01) |
 | 010-02 | [Seals, High Availability And Backups](sections/section-010/module-02/course.md) | 4 | [lab-01](sections/section-010/module-02/labs/lab-01) |
+| 010-03 | [Run A Three-Node OpenBao Cluster](sections/section-010/module-03/course.md) | 4 | [lab-01](sections/section-010/module-03/labs/lab-01) |
 | 020-01 | [Configure An OpenBao Server](sections/section-020/module-01/course.md) | 4 | [lab-01](sections/section-020/module-01/labs/lab-01) |
 | 020-02 | [Secure And Observe An OpenBao Server](sections/section-020/module-02/course.md) | 4 | [lab-01](sections/section-020/module-02/labs/lab-01) |
 | 030-01 | [Initialize, Unseal And Operate OpenBao](sections/section-030/module-01/course.md) | 4 | [lab-01](sections/section-030/module-01/labs/lab-01) |
 | 030-02 | [Daily Work With The bao Command-Line Tool](sections/section-030/module-02/course.md) | 4 | [lab-01](sections/section-030/module-02/labs/lab-01) |
+| 030-03 | [Auth Methods And Secrets Engines](sections/section-030/module-03/course.md) | 4 | [lab-01](sections/section-030/module-03/labs/lab-01) |
 
 ---
 

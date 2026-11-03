@@ -15,7 +15,7 @@ Every OpenBao server starts its life with one command, `bao operator init`, and 
 
 ## The learning path
 
-The section has two modules. Its playground holds a server that is installed but **not initialized**.
+The section has three modules. Its playground holds a server that is installed but **not initialized**.
 
 ### 1. Initialize, Unseal And Operate OpenBao
 
@@ -33,6 +33,16 @@ The playground holds an initialized, unsealed server.
 2. Reading And Writing Paths
 3. Tokens And Policies, followed by the lab **Create A Read-Only Policy And Token**
 4. Audit Devices
+5. Summary
+
+### 3. Auth Methods And Secrets Engines
+
+The playground holds an initialized, unsealed server.
+
+1. How Auth Methods Work And Userpass
+2. AppRole For Applications, followed by the lab **Give An Application An AppRole Login**
+3. Kubernetes Authentication
+4. The Transit Secrets Engine
 5. Summary
 
 ## Section capstone: Rotate Unseal Keys And Retire The Root Token

@@ -4,7 +4,7 @@ Every OpenBao server reads one configuration file when it starts. The file says 
 
 This module teaches that file and the way Kubernetes runs it. Keep one sentence in mind: **the configuration is read once, at start, so a change only counts after a restart.**
 
-The module has three parts. **The Server Configuration File** goes through the blocks and settings of a real configuration. **How The Helm Chart Runs The Server** shows where the chart puts that file, what it adds, and why the pod must be deleted after a change; a graded lab follows it. **Development Mode Against A Real Server** shows what development mode does and why you never run it for real data.
+The module has four parts. **The Server Configuration File** goes through the blocks and settings of a real configuration. **How The Helm Chart Runs The Server** shows where the chart puts that file, what it adds, and why the pod must be deleted after a change; a graded lab follows it. **Development Mode Against A Real Server** shows what development mode does and why you never run it for real data. **Environment Variables, Several Files And Reloading** shows the other ways to give a server its configuration and which changes need a restart.
 
 ## Learning objectives
 
@@ -15,6 +15,7 @@ After this module you can:
 - Find the configuration the chart gives a running pod, and change it through Helm values.
 - Restart OpenBao after a configuration change when the chart uses the `OnDelete` update strategy.
 - Check a configuration with `bao operator validate-config`.
+- Split a configuration over several files, override values with `BAO_` environment variables, and say which changes `SIGHUP` reloads.
 - Tell a development server from a real one.
 
 ## Before you start

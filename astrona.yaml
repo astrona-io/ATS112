@@ -103,8 +103,56 @@ modules:
           - name: "seal-status API"
             url: https://openbao.org/docs/api/system/seal-status/
       - type: reading
+        title: "Mounts And Paths"
+        path: sections/section-010/module-01/course-04-mounts-and-paths.md
+      - type: reading
         title: Summary
-        path: sections/section-010/module-01/course-04-summary.md
+        path: sections/section-010/module-01/course-05-summary.md
+
+      - type: reading
+        title: "Seals, High Availability And Backups"
+        path: sections/section-010/module-02/course.md
+      - type: reading
+        title: "Seal Types And Auto-Unseal"
+        path: sections/section-010/module-02/course-01-seal-types-and-auto-unseal.md
+      - type: reading
+        title: "Recovery Keys And Seal Migration"
+        path: sections/section-010/module-02/course-02-recovery-keys-and-seal-migration.md
+      - type: reading
+        title: "Raft Cluster And High Availability"
+        path: sections/section-010/module-02/course-03-raft-cluster-and-high-availability.md
+      - type: reading
+        title: "Raft Snapshots"
+        path: sections/section-010/module-02/course-04-raft-snapshots.md
+      - type: reading
+        title: Question
+        path: sections/section-010/module-02/labs/lab-01/question.md
+      - type: lab
+        title: "Restore OpenBao From A Raft Snapshot Lab"
+        path: sections/section-010/module-02/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 20m
+        topic: storage
+        task_kind: troubleshooting
+        tags: [raft, snapshot, restore, kv, bao-cli]
+        learning_goals:
+          - Get a snapshot file out of a Kubernetes Secret
+          - Restore the server from it with bao operator raft snapshot restore
+          - Prove the data is back to the saved state on the original cluster
+        resources:
+          - name: "Raft snapshot commands"
+            url: https://openbao.org/docs/commands/operator/raft/
+          - name: "Integrated Storage (Raft) configuration"
+            url: https://openbao.org/docs/configuration/storage/raft/
+          - name: "Seal and unseal"
+            url: https://openbao.org/docs/concepts/seal/
+      - type: reading
+        title: "Summary"
+        path: sections/section-010/module-02/course-05-summary.md
+      - type: quiz
+        title: "Knowledge Check: Seals, High Availability And Backups"
+        path: sections/section-010/module-02/quiz.yaml
+        pass_score: 70
 
       - type: reading
         title: Question
@@ -184,8 +232,56 @@ modules:
         title: "Development Mode Against A Real Server"
         path: sections/section-020/module-01/course-03-development-mode.md
       - type: reading
+        title: "Overrides And Reloading"
+        path: sections/section-020/module-01/course-04-overrides-and-reloading.md
+      - type: reading
         title: Summary
-        path: sections/section-020/module-01/course-04-summary.md
+        path: sections/section-020/module-01/course-05-summary.md
+
+      - type: reading
+        title: "Secure And Observe An OpenBao Server"
+        path: sections/section-020/module-02/course.md
+      - type: reading
+        title: "Server-Wide Settings"
+        path: sections/section-020/module-02/course-01-server-wide-settings.md
+      - type: reading
+        title: "Listener TLS And Client Certificates"
+        path: sections/section-020/module-02/course-02-listener-tls-and-client-certificates.md
+      - type: reading
+        title: "Logs And Telemetry Metrics"
+        path: sections/section-020/module-02/course-03-logs-and-telemetry.md
+      - type: reading
+        title: Question
+        path: sections/section-020/module-02/labs/lab-01/question.md
+      - type: lab
+        title: "Enable Metrics And Debug Logging Lab"
+        path: sections/section-020/module-02/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 20m
+        topic: configuration
+        task_kind: build
+        tags: [server-config, telemetry, log-level, lease-ttl, helm-chart]
+        learning_goals:
+          - Set the log level and the lease limits through the Helm release
+          - Enable Prometheus telemetry and unauthenticated metrics on the listener
+          - Restart and unseal the server and prove it runs the new configuration on its original data
+        resources:
+          - name: "Server configuration"
+            url: https://openbao.org/docs/configuration/
+          - name: "Telemetry configuration"
+            url: https://openbao.org/docs/configuration/telemetry/
+          - name: "TCP listener configuration"
+            url: https://openbao.org/docs/configuration/listener/tcp/
+      - type: reading
+        title: "Checking What The Server Runs"
+        path: sections/section-020/module-02/course-04-checking-what-the-server-runs.md
+      - type: reading
+        title: "Summary"
+        path: sections/section-020/module-02/course-05-summary.md
+      - type: quiz
+        title: "Knowledge Check: Secure And Observe An OpenBao Server"
+        path: sections/section-020/module-02/quiz.yaml
+        pass_score: 70
 
       - type: reading
         title: Question
@@ -262,8 +358,56 @@ modules:
         title: "Rotating Keys And Retiring The Root Token"
         path: sections/section-030/module-01/course-03-rotating-keys-and-the-root-token.md
       - type: reading
+        title: "Generating A New Root Token"
+        path: sections/section-030/module-01/course-04-generating-a-new-root-token.md
+      - type: reading
         title: Summary
-        path: sections/section-030/module-01/course-04-summary.md
+        path: sections/section-030/module-01/course-05-summary.md
+
+      - type: reading
+        title: "Daily Work With The bao Command-Line Tool"
+        path: sections/section-030/module-02/course.md
+      - type: reading
+        title: "Command-Line Conventions"
+        path: sections/section-030/module-02/course-01-command-line-conventions.md
+      - type: reading
+        title: "Reading And Writing Paths"
+        path: sections/section-030/module-02/course-02-reading-and-writing-paths.md
+      - type: reading
+        title: "Tokens And Policies"
+        path: sections/section-030/module-02/course-03-tokens-and-policies.md
+      - type: reading
+        title: Question
+        path: sections/section-030/module-02/labs/lab-01/question.md
+      - type: lab
+        title: "Create A Read-Only Policy And Token Lab"
+        path: sections/section-030/module-02/labs/lab-01
+        difficulty: intermediate
+        estimated_duration: 20m
+        topic: policy
+        task_kind: build
+        tags: [policy, token, kv, capabilities, bao-cli]
+        learning_goals:
+          - Write a policy that reads one folder of a KV version 2 engine
+          - Create a short-lived non-root token with that policy
+          - Prove the token reads its folder and is denied elsewhere
+        resources:
+          - name: "Policies"
+            url: https://openbao.org/docs/concepts/policies/
+          - name: "Tokens"
+            url: https://openbao.org/docs/concepts/tokens/
+          - name: "token create command"
+            url: https://openbao.org/docs/commands/token/create/
+      - type: reading
+        title: "Audit Devices"
+        path: sections/section-030/module-02/course-04-audit-devices.md
+      - type: reading
+        title: "Summary"
+        path: sections/section-030/module-02/course-05-summary.md
+      - type: quiz
+        title: "Knowledge Check: Daily Work With The bao Command-Line Tool"
+        path: sections/section-030/module-02/quiz.yaml
+        pass_score: 70
 
       - type: reading
         title: Question

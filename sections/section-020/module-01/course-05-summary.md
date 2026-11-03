@@ -8,11 +8,14 @@ On Kubernetes, the Helm chart writes the value `server.standalone.config` into t
 
 Development mode, `bao server -dev` or the chart value `server.dev.enabled`, keeps data in memory, starts unsealed and creates a known root token. It reports `storage_type` `inmem`. Moving from it to a real server means a new configuration, a restart, initialization and recreating the data.
 
+The server accepts several `-config` values, each a file or a directory, and merges them; a block such as `storage` belongs in one file. Environment variables that start with `BAO_`, such as `BAO_API_ADDR` and `BAO_CLUSTER_ADDR`, override the same settings in the file. `bao read sys/config/state/sanitized` shows the configuration the running server loaded. Only the listener certificate files and the log level reload on `SIGHUP`; every other change needs a restart.
+
 The key facts to remember:
 
 - The configuration is read only at start.
 - With the chart, a change needs `helm upgrade`, a pod deletion and an unseal.
 - A wrong storage `path` looks like data loss; it is a wrong folder.
+- Only certificates and the log level reload without a restart.
 - `inmem` storage means development mode and lost data at the next restart.
 
 <!-- astrona:playground:destroy -->

@@ -4,7 +4,7 @@ An OpenBao server keeps passwords, keys and certificates for many applications. 
 
 This module explains how that works and how you operate it. Keep one sentence in mind: **a sealed OpenBao has its data but not the key to read it, and unsealing gives it that key.** Everything else in the module follows from that sentence.
 
-The module has three parts. **What OpenBao Is And How A Request Travels** introduces the server and follows one request from the client to the storage. **The Barrier, The Root Key And Shamir's Secret Sharing** opens the layers of keys that protect the data and shows how the unseal key is split into shares. **Seal States And Health Checks** shows what a server answers in each state, and how to unseal it. A graded lab follows the third part.
+The module has four parts. **What OpenBao Is And How A Request Travels** introduces the server and follows one request from the client to the storage. **The Barrier, The Root Key And Shamir's Secret Sharing** opens the layers of keys that protect the data and shows how the unseal key is split into shares. **Seal States And Health Checks** shows what a server answers in each state, and how to unseal it. A graded lab follows the third part. **Mounts, Secrets Engines And Auth Methods** shows how the router attaches components to paths and which mounts every server has.
 
 ## Learning objectives
 
@@ -16,6 +16,7 @@ After this module you can:
 - Read `bao status` and `/v1/sys/seal-status`, and say whether a server is initialized and sealed.
 - Read the status codes of `/v1/sys/health`.
 - Unseal a server by entering enough key shares, and follow the progress.
+- Name the built-in mounts, and enable, tune and disable a secrets engine.
 
 ## Before you start
 

@@ -65,7 +65,7 @@ bao token revoke -self
 
 From now on, the old root token fails on every request. When a root token is needed again, for example after all administrator access is lost, `bao operator generate-root` creates a new one. It needs a threshold of unseal key shares, so no single person can do it alone.
 
-You can now replace the unseal keys, rotate the encryption key and run a server without a root token in use. Together with initializing, unsealing and sealing, that is the full set of operator commands this module set out to teach.
+You can now replace the unseal keys, rotate the encryption key and run a server without a root token in use. One question is left: what to do on the day the administrators lose access and a root token is needed again.
 
 ## Common pitfalls
 

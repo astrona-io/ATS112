@@ -24,9 +24,9 @@ contains:
 
 | Section | Title | Modules | Labs | Topic |
 | --- | --- | --- | --- | --- |
-| [010](sections/section-010) | What OpenBao Is And How It Protects Data | 1 | 1 + capstone | Architecture and security model |
-| [020](sections/section-020) | Configuring The OpenBao Server | 1 | 1 + capstone | Configuration and storage |
-| [030](sections/section-030) | Initializing, Unsealing And Sealing With bao | 1 | 1 + capstone | CLI and seal operations |
+| [010](sections/section-010) | What OpenBao Is And How It Protects Data | 2 | 2 + capstone | Architecture and security model |
+| [020](sections/section-020) | Configuring The OpenBao Server | 2 | 2 + capstone | Configuration and storage |
+| [030](sections/section-030) | Initializing, Unsealing And Sealing With bao | 2 | 2 + capstone | CLI and seal operations |
 
 The order goes from the inside out. Section 010 explains how OpenBao protects
 its data, because every later command changes some part of that protection.
@@ -40,9 +40,12 @@ init` to rotating keys and retiring the root token.
 
 | Module | Reader | Parts | Labs |
 | --- | --- | --- | --- |
-| 010-01 | [Understand How OpenBao Protects Data](sections/section-010/module-01/course.md) | 3 | [lab-01](sections/section-010/module-01/labs/lab-01) |
-| 020-01 | [Configure An OpenBao Server](sections/section-020/module-01/course.md) | 3 | [lab-01](sections/section-020/module-01/labs/lab-01) |
-| 030-01 | [Initialize, Unseal And Operate OpenBao](sections/section-030/module-01/course.md) | 3 | [lab-01](sections/section-030/module-01/labs/lab-01) |
+| 010-01 | [Understand How OpenBao Protects Data](sections/section-010/module-01/course.md) | 4 | [lab-01](sections/section-010/module-01/labs/lab-01) |
+| 010-02 | [Seals, High Availability And Backups](sections/section-010/module-02/course.md) | 4 | [lab-01](sections/section-010/module-02/labs/lab-01) |
+| 020-01 | [Configure An OpenBao Server](sections/section-020/module-01/course.md) | 4 | [lab-01](sections/section-020/module-01/labs/lab-01) |
+| 020-02 | [Secure And Observe An OpenBao Server](sections/section-020/module-02/course.md) | 4 | [lab-01](sections/section-020/module-02/labs/lab-01) |
+| 030-01 | [Initialize, Unseal And Operate OpenBao](sections/section-030/module-01/course.md) | 4 | [lab-01](sections/section-030/module-01/labs/lab-01) |
+| 030-02 | [Daily Work With The bao Command-Line Tool](sections/section-030/module-02/course.md) | 4 | [lab-01](sections/section-030/module-02/labs/lab-01) |
 
 ---
 

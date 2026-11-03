@@ -6,6 +6,8 @@ Nothing reaches storage in clear text. The barrier encrypts every value with the
 
 A server is not initialized, initialized and sealed, or initialized and unsealed. A sealed server has all its data but no keys in memory, and it refuses almost every request. Every restart seals it again. `bao status`, `/v1/sys/seal-status` and `/v1/sys/health` report the state; the health endpoint answers `200` when active, `429` when standby, `501` when not initialized and `503` when sealed. Unsealing takes one `bao operator unseal` call per share until the threshold is reached, and `-reset` starts the count again.
 
+Everything an unsealed server offers is mounted at a path. `bao secrets list -detailed` and `bao auth list` show the mounts; `bao secrets enable`, `tune`, `move` and `disable` manage them. Disabling a secrets engine deletes everything stored under its path, so check the path twice. Auth methods mount below `auth/`.
+
 The key facts to remember:
 
 - Sealed means "has data, has no key", not "broken".

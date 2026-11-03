@@ -1,0 +1,236 @@
+# Knowledge check for module 02 of section 010. Listed in astrona.yaml as a `type: quiz` entry after the module summary.
+schema_version: 1
+kind: question_bank
+course_id: ATS112
+exam_code: OPENBAO
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+id: ats112-010-m02
+scope:
+  type: module
+  id: module-02
+  title: "Seals, High Availability And Backups"
+placement:
+  position: after
+  reading: sections/section-010/module-02/course-05-summary.md
+questions:
+- id: ats112-010-m02-q01
+  type: single_choice
+  difficulty: beginner
+  learning_objective: "Name the setting that enables auto-unseal"
+  source_readings:
+  - sections/section-010/module-02/course-01-seal-types-and-auto-unseal.md
+  prompt: "Which part of the server configuration makes OpenBao unseal itself with an outside key service?"
+  options:
+  - id: a
+    text: "A `seal` block."
+    explanation: "Correct. The `seal` block names the seal type and its options."
+  - id: b
+    text: "An `unseal_key` setting at the top level."
+    explanation: "Not correct. OpenBao never stores the unseal key in its configuration."
+  - id: c
+    text: "The `-auto` flag of `bao operator unseal`."
+    explanation: "Not correct. That flag does not exist."
+  - id: d
+    text: "The `ui` setting."
+    explanation: "Not correct. It only turns the web interface on or off."
+  correct_option: a
+  explanation: "Correct. The `seal` block names the seal type and its options."
+- id: ats112-010-m02-q02
+  type: single_choice
+  difficulty: beginner
+  learning_objective: "Explain recovery keys"
+  source_readings:
+  - sections/section-010/module-02/course-02-recovery-keys-and-seal-migration.md
+  prompt: "You initialize a server that uses auto-unseal. What does `bao operator init` create instead of unseal key shares?"
+  options:
+  - id: a
+    text: "Nothing. The server needs no keys of any kind."
+    explanation: "Not correct. Recovery keys are still created."
+  - id: b
+    text: "A second root token."
+    explanation: "Not correct. There is one initial root token."
+  - id: c
+    text: "A new encryption key for each mount."
+    explanation: "Not correct. Mount encryption keys are not created by initialization."
+  - id: d
+    text: "Recovery keys."
+    explanation: "Correct. They are shares of a key that authorizes sensitive operations."
+  correct_option: d
+  explanation: "Correct. They are shares of a key that authorizes sensitive operations."
+- id: ats112-010-m02-q03
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: "Explain what recovery keys can do"
+  source_readings:
+  - sections/section-010/module-02/course-02-recovery-keys-and-seal-migration.md
+  prompt: "What can recovery keys do on a server that uses auto-unseal?"
+  options:
+  - id: a
+    text: "Unseal the server when the key service is unavailable."
+    explanation: "Not correct. They cannot unseal the server."
+  - id: b
+    text: "Decrypt the stored data directly."
+    explanation: "Not correct. The data is decrypted through the barrier, not with recovery keys."
+  - id: c
+    text: "Authorize sensitive operations such as generating a root token."
+    explanation: "Correct. They cannot unseal the server, because the seal service does that."
+  - id: d
+    text: "Replace the root token for daily work."
+    explanation: "Not correct. They authorize operations; they are not a login credential."
+  correct_option: c
+  explanation: "Correct. They cannot unseal the server, because the seal service does that."
+- id: ats112-010-m02-q04
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: "Know the seal migration flag"
+  source_readings:
+  - sections/section-010/module-02/course-02-recovery-keys-and-seal-migration.md
+  prompt: "Which option of `bao operator unseal` is used to migrate a server from one seal type to another?"
+  options:
+  - id: a
+    text: "`-force`"
+    explanation: "Not correct. That option belongs to snapshot restore, not to seal migration."
+  - id: b
+    text: "`-migrate`"
+    explanation: "Correct. The key shares are entered with `-migrate` after the configuration is changed."
+  - id: c
+    text: "`-reset`"
+    explanation: "Not correct. It discards the shares entered so far."
+  - id: d
+    text: "`-rotate`"
+    explanation: "Not correct. That option does not exist."
+  correct_option: b
+  explanation: "Correct. The key shares are entered with `-migrate` after the configuration is changed."
+- id: ats112-010-m02-q05
+  type: single_choice
+  difficulty: beginner
+  learning_objective: "Calculate Raft fault tolerance"
+  source_readings:
+  - sections/section-010/module-02/course-03-raft-cluster-and-high-availability.md
+  prompt: "A Raft cluster has five nodes. How many nodes can fail while the cluster keeps serving requests?"
+  options:
+  - id: a
+    text: "Two."
+    explanation: "Correct. Five nodes need a quorum of three."
+  - id: b
+    text: "One."
+    explanation: "Not correct. That is the tolerance of a three-node cluster."
+  - id: c
+    text: "Three."
+    explanation: "Not correct. Three failures would leave two nodes, below the quorum of three."
+  - id: d
+    text: "Four."
+    explanation: "Not correct. One node alone is not a quorum."
+  correct_option: a
+  explanation: "Correct. Five nodes need a quorum of three."
+- id: ats112-010-m02-q06
+  type: single_choice
+  difficulty: beginner
+  learning_objective: "Read the cluster members"
+  source_readings:
+  - sections/section-010/module-02/course-03-raft-cluster-and-high-availability.md
+  prompt: "Which command lists the members of a Raft cluster and shows which one is the leader?"
+  options:
+  - id: a
+    text: "`bao status -peers`"
+    explanation: "Not correct. That option does not exist."
+  - id: b
+    text: "`bao operator members`"
+    explanation: "Not correct. That command does not exist."
+  - id: c
+    text: "`bao read sys/leader-list`"
+    explanation: "Not correct. There is no such path."
+  - id: d
+    text: "`bao operator raft list-peers`"
+    explanation: "Correct. It prints each node with its address and role."
+  correct_option: d
+  explanation: "Correct. It prints each node with its address and role."
+- id: ats112-010-m02-q07
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: "Describe step-down"
+  source_readings:
+  - sections/section-010/module-02/course-03-raft-cluster-and-high-availability.md
+  prompt: "What does `bao operator step-down` do on the active node?"
+  options:
+  - id: a
+    text: "It removes the node from the cluster."
+    explanation: "Not correct. Removing a node needs `bao operator raft remove-peer`."
+  - id: b
+    text: "It seals the node."
+    explanation: "Not correct. Sealing needs `bao operator seal`."
+  - id: c
+    text: "It makes the node give up the active role so that a standby node can take it."
+    explanation: "Correct. The node stays in the cluster and keeps its data."
+  - id: d
+    text: "It deletes the node data."
+    explanation: "Not correct. No data is deleted."
+  correct_option: c
+  explanation: "Correct. The node stays in the cluster and keeps its data."
+- id: ats112-010-m02-q08
+  type: single_choice
+  difficulty: beginner
+  learning_objective: "Know what a snapshot contains"
+  source_readings:
+  - sections/section-010/module-02/course-04-raft-snapshots.md
+  prompt: "Which of these is NOT part of a Raft snapshot?"
+  options:
+  - id: a
+    text: "Secrets and policies."
+    explanation: "Not correct. A snapshot holds all stored data, including both."
+  - id: b
+    text: "The server configuration file."
+    explanation: "Correct. The configuration, the Helm values, TLS certificates and the unseal keys are kept separately."
+  - id: c
+    text: "Mounts and auth methods."
+    explanation: "Not correct. Their configuration is stored data and is in the snapshot."
+  - id: d
+    text: "Tokens and leases."
+    explanation: "Not correct. They are stored data and are in the snapshot."
+  correct_option: b
+  explanation: "Correct. The configuration, the Helm values, TLS certificates and the unseal keys are kept separately."
+- id: ats112-010-m02-q09
+  type: single_choice
+  difficulty: advanced
+  learning_objective: "Combine snapshots with key rotation"
+  source_readings:
+  - sections/section-010/module-02/course-04-raft-snapshots.md
+  prompt: "You rotated the unseal keys after a snapshot was taken, and then restore that snapshot. Which unseal keys does the server expect?"
+  options:
+  - id: a
+    text: "The unseal keys from the time of the snapshot."
+    explanation: "Correct. The snapshot holds the root key as it was encrypted then. Keep old keys until no snapshot needs them."
+  - id: b
+    text: "The newest unseal keys."
+    explanation: "Not correct. The restored data was protected with the older keys."
+  - id: c
+    text: "Either set of keys."
+    explanation: "Not correct. Only the keys that match the restored root key work."
+  - id: d
+    text: "No keys. A restore unseals the server."
+    explanation: "Not correct. The server still needs the matching unseal keys."
+  correct_option: a
+  explanation: "Correct. The snapshot holds the root key as it was encrypted then. Keep old keys until no snapshot needs them."
+- id: ats112-010-m02-q10
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: "Restore a snapshot from another cluster"
+  source_readings:
+  - sections/section-010/module-02/course-04-raft-snapshots.md
+  prompt: "What does `bao operator raft snapshot restore` require when the snapshot comes from a different cluster?"
+  options:
+  - id: a
+    text: "Nothing special. It works the same way."
+    explanation: "Not correct. The command refuses a foreign snapshot unless `-force` is set."
+  - id: b
+    text: "The `-migrate` option."
+    explanation: "Not correct. That option belongs to seal migration."
+  - id: c
+    text: "A new `bao operator init`."
+    explanation: "Not correct. Initializing again would create a new, empty cluster."
+  - id: d
+    text: "The `-force` option, and the unseal keys of the snapshot."
+    explanation: "Correct. Without `-force` the command refuses."
+  correct_option: d
+  explanation: "Correct. Without `-force` the command refuses."

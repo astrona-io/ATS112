@@ -11,17 +11,29 @@ Every OpenBao server starts its life with one command, `bao operator init`, and 
 - How to seal a server on purpose and what that does.
 - How to replace the unseal keys with `bao operator rotate-keys` and rotate the encryption key with `bao operator rotate`.
 - Why the root token is revoked after setup, and how `bao operator generate-root` creates a new one when it is needed.
+- The command-line conventions, the generic read, write, list and delete commands, policies, tokens and audit devices.
 
 ## The learning path
 
-The section has one module. Its playground holds a server that is installed but **not initialized**.
+The section has two modules. Its playground holds a server that is installed but **not initialized**.
 
 ### 1. Initialize, Unseal And Operate OpenBao
 
 1. Initializing A Server
 2. Unseal, Sign In, Store A Secret And Seal Again, followed by the lab **Initialize OpenBao And Store A First Secret**
 3. Rotating Keys And Retiring The Root Token
-4. Summary
+4. Generating A New Root Token
+5. Summary
+
+### 2. Daily Work With The bao Command-Line Tool
+
+The playground holds an initialized, unsealed server.
+
+1. Command-Line Conventions
+2. Reading And Writing Paths
+3. Tokens And Policies, followed by the lab **Create A Read-Only Policy And Token**
+4. Audit Devices
+5. Summary
 
 ## Section capstone: Rotate Unseal Keys And Retire The Root Token
 

@@ -4,7 +4,7 @@ A new OpenBao server has no keys, no data and no token. One command creates all 
 
 Keep one sentence in mind: **initialization happens once per server, and everything it prints must be handled with care.**
 
-The module has three parts. **Initializing A Server** runs `bao operator init` and explains each choice and each line of its output. **Unseal, Sign In, Store A Secret And Seal Again** brings the new server into use and shows sealing on purpose; a graded lab follows it. **Rotating Keys And Retiring The Root Token** covers the work that keeps a running server safe.
+The module has four parts. **Initializing A Server** runs `bao operator init` and explains each choice and each line of its output. **Unseal, Sign In, Store A Secret And Seal Again** brings the new server into use and shows sealing on purpose; a graded lab follows it. **Rotating Keys And Retiring The Root Token** covers the work that keeps a running server safe. **Generating A New Root Token** shows how a threshold of key holders creates a root token when none exists.
 
 ## Learning objectives
 
@@ -16,6 +16,7 @@ After this module you can:
 - Seal a server on purpose and explain what that does.
 - Replace the unseal keys with `bao operator rotate-keys` and rotate the encryption key with `bao operator rotate`.
 - Create an administrator token with a policy and revoke the root token.
+- Generate a new root token with `bao operator generate-root` and decode it with the one-time password.
 
 ## Before you start
 

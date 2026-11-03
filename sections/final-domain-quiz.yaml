@@ -232,3 +232,135 @@ questions:
     explanation: Not correct. The new shares do not exist until the rotation completes.
   correct_option: b
   explanation: Correct. The old shares stop working when the rotation completes.
+- id: ats112-final-q10
+  type: single_choice
+  difficulty: beginner
+  learning_objective: "Calculate Raft fault tolerance"
+  source_readings:
+  - sections/section-010/module-02/course-03-raft-cluster-and-high-availability.md
+  prompt: "A Raft cluster has five nodes. How many nodes can fail while the cluster keeps serving requests?"
+  options:
+  - id: a
+    text: "Two."
+    explanation: "Correct. Five nodes need a quorum of three."
+  - id: b
+    text: "One."
+    explanation: "Not correct. That is the tolerance of a three-node cluster."
+  - id: c
+    text: "Three."
+    explanation: "Not correct. Three failures would leave two nodes, below the quorum of three."
+  - id: d
+    text: "Four."
+    explanation: "Not correct. One node alone is not a quorum."
+  correct_option: a
+  explanation: "Correct. Five nodes need a quorum of three."
+- id: ats112-final-q11
+  type: single_choice
+  difficulty: advanced
+  learning_objective: "Combine snapshots with key rotation"
+  source_readings:
+  - sections/section-010/module-02/course-04-raft-snapshots.md
+  prompt: "You rotated the unseal keys after a snapshot was taken, and then restore that snapshot. Which unseal keys does the server expect?"
+  options:
+  - id: a
+    text: "The unseal keys from the time of the snapshot."
+    explanation: "Correct. The snapshot holds the root key as it was encrypted then. Keep old keys until no snapshot needs them."
+  - id: b
+    text: "The newest unseal keys."
+    explanation: "Not correct. The restored data was protected with the older keys."
+  - id: c
+    text: "Either set of keys."
+    explanation: "Not correct. Only the keys that match the restored root key work."
+  - id: d
+    text: "No keys. A restore unseals the server."
+    explanation: "Not correct. The server still needs the matching unseal keys."
+  correct_option: a
+  explanation: "Correct. The snapshot holds the root key as it was encrypted then. Keep old keys until no snapshot needs them."
+- id: ats112-final-q12
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: "Place the metrics setting"
+  source_readings:
+  - sections/section-020/module-02/course-03-logs-and-telemetry.md
+  prompt: "Where does `unauthenticated_metrics_access = true` belong?"
+  options:
+  - id: a
+    text: "In the top-level `telemetry` block."
+    explanation: "Not correct. It is ignored there."
+  - id: b
+    text: "In the `storage` block."
+    explanation: "Not correct. Storage has no such setting."
+  - id: c
+    text: "In the `seal` block."
+    explanation: "Not correct. The seal has no such setting."
+  - id: d
+    text: "In a `telemetry` block inside the `listener` block."
+    explanation: "Correct. It opens only the metrics path of that listener."
+  correct_option: d
+  explanation: "Correct. It opens only the metrics path of that listener."
+- id: ats112-final-q13
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: "Read the running configuration"
+  source_readings:
+  - sections/section-020/module-02/course-04-checking-what-the-server-runs.md
+  prompt: "Which command shows the configuration that the running server loaded, with secrets removed?"
+  options:
+  - id: a
+    text: "`bao operator validate-config`"
+    explanation: "Not correct. It checks a file, not a running server."
+  - id: b
+    text: "`bao secrets list`"
+    explanation: "Not correct. It lists mounts."
+  - id: c
+    text: "`bao audit list`"
+    explanation: "Not correct. It lists audit devices."
+  - id: d
+    text: "`bao read sys/config/state/sanitized`"
+    explanation: "Correct. It proves what the process runs, as opposed to what the file says."
+  correct_option: d
+  explanation: "Correct. It proves what the process runs, as opposed to what the file says."
+- id: ats112-final-q14
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: "Use generic commands on KV version 2"
+  source_readings:
+  - sections/section-030/module-02/course-02-reading-and-writing-paths.md
+  prompt: "You read a KV version 2 secret with `bao read`. Which path reaches the secret `inventory/db` in the engine at `secret/`?"
+  options:
+  - id: a
+    text: "`secret/inventory/db`"
+    explanation: "Not correct. That path is what `bao kv get` accepts; the generic command needs the `data/` segment."
+  - id: b
+    text: "`secret/data/inventory/db`"
+    explanation: "Correct. KV version 2 stores values below `data/`."
+  - id: c
+    text: "`secret/metadata/inventory/db`"
+    explanation: "Not correct. That path returns metadata, not the value."
+  - id: d
+    text: "`secret/db/inventory`"
+    explanation: "Not correct. The folder and the name are in the wrong order."
+  correct_option: b
+  explanation: "Correct. KV version 2 stores values below `data/`."
+- id: ats112-final-q15
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: "Know that values in audit logs are hashed"
+  source_readings:
+  - sections/section-030/module-02/course-04-audit-devices.md
+  prompt: "How does an audit device write a secret value into its log by default?"
+  options:
+  - id: a
+    text: "As an HMAC-SHA256 hash."
+    explanation: "Correct. The same input gives the same hash, so a value can be searched for without being stored."
+  - id: b
+    text: "In clear text."
+    explanation: "Not correct. That happens only with `log_raw=true`."
+  - id: c
+    text: "Encrypted with the unseal key."
+    explanation: "Not correct. Values are hashed, not encrypted."
+  - id: d
+    text: "It is left out of the log."
+    explanation: "Not correct. A hash is written in its place."
+  correct_option: a
+  explanation: "Correct. The same input gives the same hash, so a value can be searched for without being stored."

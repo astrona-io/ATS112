@@ -11,17 +11,31 @@ An OpenBao server does exactly what its configuration file says: where it listen
 - How the Helm chart turns its values into the configuration file, which environment variables it adds, and why a change needs a pod restart.
 - How to check a configuration with `bao operator validate-config`.
 - What development mode does, why it is never a real server, and how to move to a real configuration.
+- How overrides, environment variables and `SIGHUP` change a running configuration.
+- Server-wide settings, listener TLS and client certificates, logs and Prometheus telemetry.
+- How to check what the server runs with `validate-config`, `diagnose` and `sys/config/state/sanitized`.
 
 ## The learning path
 
-The section has one module. Its playground holds an initialized, unsealed server; the lab-only unseal key and root token are in the Secret `openbao-init`.
+The section has two modules. Its playground holds an initialized, unsealed server; the lab-only unseal key and root token are in the Secret `openbao-init`.
 
 ### 1. Configure An OpenBao Server
 
 1. The Server Configuration File
 2. How The Helm Chart Runs The Server, followed by the lab **Repair A Server Configuration**
 3. Development Mode Against A Real Server
-4. Summary
+4. Overrides And Reloading
+5. Summary
+
+### 2. Secure And Observe An OpenBao Server
+
+The playground holds an initialized, unsealed server, as in the first module.
+
+1. Server-Wide Settings
+2. Listener TLS And Client Certificates
+3. Logs And Telemetry Metrics, followed by the lab **Enable Metrics And Debug Logging**
+4. Checking What The Server Runs
+5. Summary
 
 ## Section capstone: Move A Development Server To A Real Configuration
 

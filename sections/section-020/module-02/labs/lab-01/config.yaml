@@ -1,0 +1,66 @@
+# Enable Metrics And Debug Logging
+# Astrona graded lab. Schema: internal/config.LabConfig.
+
+metadata:
+  name: "ats-112-lab-020-02"
+  docs:
+    guide: "solution.md"
+    solution: "solution.md"
+    question: "question.md"
+    examQuestion: "question.md"
+    prerequisites: "prerequisites.md"
+bootstrap:
+  init:
+    - name: "install-openbao"
+      description: "Installs Helm 3.22.1, the bao CLI 2.7.1, the tester pod and OpenBao v2.7.1 (chart 0.30.4)"
+      type: "file"
+      source: "bootstrap/01-install-openbao.sh"
+    - name: "ats-112-lab-020-02-setup"
+      description: "Writes a secret and a baseline so the task can prove the data survived"
+      type: "file"
+      source: "bootstrap/02-seed-state.sh"
+  manifests:
+    - name: "lab-start"
+      description: "The tester pod (namespace clients)."
+      type: "file"
+      source: "manifests/lab-start.yaml"
+testing:
+  init:
+    - name: "wait-for-openbao"
+      description: "Waits until the environment is ready for the reference solution"
+      type: "file"
+      source: "testing/wait-for-openbao.sh"
+    - name: "reference-solution"
+      description: "The work a correct learner does; used by `astrona test`"
+      type: "file"
+      source: "solution/apply.sh"
+validation:
+  scripts:
+    - name: "validate-log-and-leases"
+      description: "Confirms the configuration sets log_level debug, default_lease_ttl 2h and max_lease_ttl 48h"
+      type: "file"
+      source: "validation/validate-log-and-leases.sh"
+    - name: "validate-telemetry-config"
+      description: "Confirms a telemetry block exists and the listener allows unauthenticated metrics"
+      type: "file"
+      source: "validation/validate-telemetry-config.sh"
+    - name: "validate-metrics-open"
+      description: "Confirms the running server serves Prometheus metrics without a token"
+      type: "file"
+      source: "validation/validate-metrics-open.sh"
+    - name: "validate-debug-logging"
+      description: "Confirms the running server writes debug lines to its log"
+      type: "file"
+      source: "validation/validate-debug-logging.sh"
+    - name: "validate-same-data"
+      description: "Confirms the cluster is the original one, unsealed and Ready, and the secret is readable"
+      type: "file"
+      source: "validation/validate-same-data.sh"
+teardown:
+  keepCluster: false
+runtime:
+  kind:
+    preloadImages:
+      - docker.io/hashicorp/vault-k8s:1.7.6
+      - nicolaka/netshoot:v0.13
+      - quay.io/openbao/openbao:2.7.1

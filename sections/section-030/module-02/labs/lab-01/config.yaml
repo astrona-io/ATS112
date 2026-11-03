@@ -1,0 +1,62 @@
+# Create A Read-Only Policy And Token
+# Astrona graded lab. Schema: internal/config.LabConfig.
+
+metadata:
+  name: "ats-112-lab-030-02"
+  docs:
+    guide: "solution.md"
+    solution: "solution.md"
+    question: "question.md"
+    examQuestion: "question.md"
+    prerequisites: "prerequisites.md"
+bootstrap:
+  init:
+    - name: "install-openbao"
+      description: "Installs Helm 3.22.1, the bao CLI 2.7.1, the tester pod and OpenBao v2.7.1 (chart 0.30.4)"
+      type: "file"
+      source: "bootstrap/01-install-openbao.sh"
+    - name: "ats-112-lab-030-02-setup"
+      description: "Writes two secrets in different folders for the task"
+      type: "file"
+      source: "bootstrap/02-seed-state.sh"
+  manifests:
+    - name: "lab-start"
+      description: "The tester pod (namespace clients)."
+      type: "file"
+      source: "manifests/lab-start.yaml"
+testing:
+  init:
+    - name: "wait-for-openbao"
+      description: "Waits until the environment is ready for the reference solution"
+      type: "file"
+      source: "testing/wait-for-openbao.sh"
+    - name: "reference-solution"
+      description: "The work a correct learner does; used by `astrona test`"
+      type: "file"
+      source: "solution/apply.sh"
+validation:
+  scripts:
+    - name: "validate-policy-exists"
+      description: "Confirms the policy inventory-read exists"
+      type: "file"
+      source: "validation/validate-policy-exists.sh"
+    - name: "validate-token-properties"
+      description: "Confirms the token has the policy, is not a root token and lives at most one hour"
+      type: "file"
+      source: "validation/validate-token-properties.sh"
+    - name: "validate-inventory-access"
+      description: "Confirms the token can read and list inventory and cannot write it"
+      type: "file"
+      source: "validation/validate-inventory-access.sh"
+    - name: "validate-billing-denied"
+      description: "Confirms the token cannot read the billing secret"
+      type: "file"
+      source: "validation/validate-billing-denied.sh"
+teardown:
+  keepCluster: false
+runtime:
+  kind:
+    preloadImages:
+      - docker.io/hashicorp/vault-k8s:1.7.6
+      - nicolaka/netshoot:v0.13
+      - quay.io/openbao/openbao:2.7.1

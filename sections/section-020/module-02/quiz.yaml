@@ -1,0 +1,236 @@
+# Knowledge check for module 02 of section 020. Listed in astrona.yaml as a `type: quiz` entry after the module summary.
+schema_version: 1
+kind: question_bank
+course_id: ATS112
+exam_code: OPENBAO
+status: draft
+provenance: Original practice material written for this course; not official exam questions.
+id: ats112-020-m02
+scope:
+  type: module
+  id: module-02
+  title: "Secure And Observe An OpenBao Server"
+placement:
+  position: after
+  reading: sections/section-020/module-02/course-05-summary.md
+questions:
+- id: ats112-020-m02-q01
+  type: single_choice
+  difficulty: beginner
+  learning_objective: "Know lease limit settings"
+  source_readings:
+  - sections/section-020/module-02/course-01-server-wide-settings.md
+  prompt: "Which pair of settings limits how long tokens and secrets can live?"
+  options:
+  - id: a
+    text: "`default_lease_ttl` and `max_lease_ttl`"
+    explanation: "Correct. The default applies when nothing is requested, and the maximum caps every request."
+  - id: b
+    text: "`token_ttl` and `secret_ttl`"
+    explanation: "Not correct. Those settings do not exist."
+  - id: c
+    text: "`lease_start` and `lease_end`"
+    explanation: "Not correct. Those settings do not exist."
+  - id: d
+    text: "`log_level` and `log_format`"
+    explanation: "Not correct. They shape the log."
+  correct_option: a
+  explanation: "Correct. The default applies when nothing is requested, and the maximum caps every request."
+- id: ats112-020-m02-q02
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: "Know the status of disable_mlock"
+  source_readings:
+  - sections/section-020/module-02/course-01-server-wide-settings.md
+  prompt: "A configuration copied from a Vault guide contains `disable_mlock = true`. What is the right action on OpenBao 2.7.1?"
+  options:
+  - id: a
+    text: "Keep it, because it protects the keys in memory."
+    explanation: "Not correct. The setting no longer does anything."
+  - id: b
+    text: "Change it to `false` so the keys stay in RAM."
+    explanation: "Not correct. Memory locking no longer exists."
+  - id: c
+    text: "Move it into the `storage` block."
+    explanation: "Not correct. The setting is obsolete wherever it is."
+  - id: d
+    text: "Remove the line, because OpenBao removed memory locking."
+    explanation: "Correct. Keep swap off on the nodes instead."
+  correct_option: d
+  explanation: "Correct. Keep swap off on the nodes instead."
+- id: ats112-020-m02-q03
+  type: single_choice
+  difficulty: beginner
+  learning_objective: "Know log settings"
+  source_readings:
+  - sections/section-020/module-02/course-01-server-wide-settings.md
+  prompt: "Which values does `log_level` accept?"
+  options:
+  - id: a
+    text: "`low`, `medium` and `high`."
+    explanation: "Not correct. Those are not log levels."
+  - id: b
+    text: "`quiet` and `verbose`."
+    explanation: "Not correct. Those are not log levels."
+  - id: c
+    text: "`trace`, `debug`, `info`, `warn` and `error`."
+    explanation: "Correct. The default is `info`."
+  - id: d
+    text: "`audit` and `access`."
+    explanation: "Not correct. Those are not log levels; the audit log is a separate stream."
+  correct_option: c
+  explanation: "Correct. The default is `info`."
+- id: ats112-020-m02-q04
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: "Configure listener TLS"
+  source_readings:
+  - sections/section-020/module-02/course-02-listener-tls-and-client-certificates.md
+  prompt: "Which settings give a listener a certificate and a private key?"
+  options:
+  - id: a
+    text: "`tls_disable` and `tls_enable`"
+    explanation: "Not correct. `tls_disable = 1` turns TLS off, and there is no `tls_enable`."
+  - id: b
+    text: "`tls_cert_file` and `tls_key_file`"
+    explanation: "Correct. They belong in the `listener \"tcp\"` block."
+  - id: c
+    text: "`api_addr` and `cluster_addr`"
+    explanation: "Not correct. They advertise addresses; they do not hold certificates."
+  - id: d
+    text: "`cert_path` and `key_path`"
+    explanation: "Not correct. Those names do not exist."
+  correct_option: b
+  explanation: "Correct. They belong in the `listener \"tcp\"` block."
+- id: ats112-020-m02-q05
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: "Require client certificates"
+  source_readings:
+  - sections/section-020/module-02/course-02-listener-tls-and-client-certificates.md
+  prompt: "Which setting makes a listener refuse clients that do not present a valid certificate?"
+  options:
+  - id: a
+    text: "`tls_require_and_verify_client_cert = true` with `tls_client_ca_file`"
+    explanation: "Correct. The CA file names the authorities whose certificates are accepted."
+  - id: b
+    text: "`tls_min_version = \"tls13\"`"
+    explanation: "Not correct. It sets the lowest TLS version, not client authentication."
+  - id: c
+    text: "`tls_disable = 0`"
+    explanation: "Not correct. It only leaves TLS enabled."
+  - id: d
+    text: "`unauthenticated_metrics_access = true`"
+    explanation: "Not correct. It opens the metrics path without a token."
+  correct_option: a
+  explanation: "Correct. The CA file names the authorities whose certificates are accepted."
+- id: ats112-020-m02-q06
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: "Place the metrics setting"
+  source_readings:
+  - sections/section-020/module-02/course-03-logs-and-telemetry.md
+  prompt: "Where does `unauthenticated_metrics_access = true` belong?"
+  options:
+  - id: a
+    text: "In the top-level `telemetry` block."
+    explanation: "Not correct. It is ignored there."
+  - id: b
+    text: "In the `storage` block."
+    explanation: "Not correct. Storage has no such setting."
+  - id: c
+    text: "In the `seal` block."
+    explanation: "Not correct. The seal has no such setting."
+  - id: d
+    text: "In a `telemetry` block inside the `listener` block."
+    explanation: "Correct. It opens only the metrics path of that listener."
+  correct_option: d
+  explanation: "Correct. It opens only the metrics path of that listener."
+- id: ats112-020-m02-q07
+  type: single_choice
+  difficulty: beginner
+  learning_objective: "Read metrics"
+  source_readings:
+  - sections/section-020/module-02/course-03-logs-and-telemetry.md
+  prompt: "Which request returns the metrics in the Prometheus text format?"
+  options:
+  - id: a
+    text: "A read of `/v1/sys/health`."
+    explanation: "Not correct. It reports the node state, not the metrics."
+  - id: b
+    text: "A read of `/v1/sys/seal-status`."
+    explanation: "Not correct. It reports the seal state."
+  - id: c
+    text: "A read of `/v1/sys/metrics?format=prometheus`."
+    explanation: "Correct. Without the open-access setting it needs a token."
+  - id: d
+    text: "A read of `/v1/metrics`."
+    explanation: "Not correct. That path does not exist."
+  correct_option: c
+  explanation: "Correct. Without the open-access setting it needs a token."
+- id: ats112-020-m02-q08
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: "Know the audit trail source"
+  source_readings:
+  - sections/section-020/module-02/course-03-logs-and-telemetry.md
+  prompt: "An auditor asks who read a secret last week. Where is that recorded?"
+  options:
+  - id: a
+    text: "In the server log at the `info` level."
+    explanation: "Not correct. The server log does not record who read which secret."
+  - id: b
+    text: "In the audit log of an enabled audit device."
+    explanation: "Correct. The server log does not record requests or secrets."
+  - id: c
+    text: "In the telemetry metrics."
+    explanation: "Not correct. Metrics hold counts and timings, not requests."
+  - id: d
+    text: "In the Raft snapshot."
+    explanation: "Not correct. A snapshot holds data, not a request history."
+  correct_option: b
+  explanation: "Correct. The server log does not record requests or secrets."
+- id: ats112-020-m02-q09
+  type: single_choice
+  difficulty: beginner
+  learning_objective: "Check a file before a restart"
+  source_readings:
+  - sections/section-020/module-02/course-04-checking-what-the-server-runs.md
+  prompt: "Which command checks that a configuration file parses and uses known settings, without starting a server?"
+  options:
+  - id: a
+    text: "`bao operator validate-config -config=<file>`"
+    explanation: "Correct. It checks the file only."
+  - id: b
+    text: "`bao status`"
+    explanation: "Not correct. It reports the state of a running server."
+  - id: c
+    text: "`bao operator init`"
+    explanation: "Not correct. It initializes a server."
+  - id: d
+    text: "`bao read sys/config/state/sanitized`"
+    explanation: "Not correct. It shows the configuration a running server loaded."
+  correct_option: a
+  explanation: "Correct. It checks the file only."
+- id: ats112-020-m02-q10
+  type: single_choice
+  difficulty: intermediate
+  learning_objective: "Read the running configuration"
+  source_readings:
+  - sections/section-020/module-02/course-04-checking-what-the-server-runs.md
+  prompt: "Which command shows the configuration that the running server loaded, with secrets removed?"
+  options:
+  - id: a
+    text: "`bao operator validate-config`"
+    explanation: "Not correct. It checks a file, not a running server."
+  - id: b
+    text: "`bao secrets list`"
+    explanation: "Not correct. It lists mounts."
+  - id: c
+    text: "`bao audit list`"
+    explanation: "Not correct. It lists audit devices."
+  - id: d
+    text: "`bao read sys/config/state/sanitized`"
+    explanation: "Correct. It proves what the process runs, as opposed to what the file says."
+  correct_option: d
+  explanation: "Correct. It proves what the process runs, as opposed to what the file says."

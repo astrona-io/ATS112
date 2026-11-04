@@ -13,7 +13,7 @@
 training:
   id: ATS112
   title: "OpenBao: Fundamentals, Architecture & CLI Operations"
-  maturity: draft
+  maturity: alpha
   description: >
     Training material covering the Fundamentals, Architecture & CLI
     Operations domain of the OpenBao training path: what OpenBao is and where

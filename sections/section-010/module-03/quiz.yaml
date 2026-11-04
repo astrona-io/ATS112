@@ -3,7 +3,7 @@ schema_version: 1
 kind: question_bank
 course_id: ATS112
 exam_code: OPENBAO
-status: draft
+status: alpha
 provenance: Original practice material written for this course; not official exam questions.
 id: ats112-010-m03
 scope:
